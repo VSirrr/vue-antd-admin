@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <a-layout-header class="login-header">
-      中仓登仓单信息登记服务平台-管理端
+      vue-antd-admin
     </a-layout-header>
     <div class="login-content">
       <div class="login-content-logo">
