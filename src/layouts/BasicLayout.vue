@@ -12,15 +12,7 @@
     >
       <!-- logo -->
       <div class="logo">
-        <!-- 收缩时显示不带名称的 logo -->
-        <img
-          v-show="collapsed"
-          style="margin-left: -6px"
-          src="@/assets/img/logo2.png"
-          alt="logo"
-        />
-        <!-- 展开时显示带名称的 logo -->
-        <img v-show="!collapsed" src="@/assets/img/logo.png" alt="logo" />
+        <img src="@/assets/img/logo.png" alt="logo" /> vue-antd-admin
       </div>
       <!-- 菜单 -->
       <a-menu
@@ -151,8 +143,11 @@ export default {
     .logo {
       padding: @padding-sm @padding-lg;
       height: @layout-header-height;
+      line-height: @layout-header-height - 2 * @padding-sm;
       border-bottom: 1px solid #e8e8e8;
-      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      overflow: hidden;
       img {
         height: 100%;
       }
