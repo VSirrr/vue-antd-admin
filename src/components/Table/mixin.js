@@ -32,7 +32,6 @@ export default {
         props[k] = this[k];
       }
     });
-    console.log(this);
     // 自定义 pagination
     props.pagination = _pagination;
 
