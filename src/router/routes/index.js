@@ -189,7 +189,7 @@ export default [
         path: '/users',
         meta: {
           title: '查询用户管理',
-          icon: 'user',
+          icon: 'team',
         },
         component: () => import('views/users'),
       },
