@@ -2,13 +2,15 @@ import axios from 'axios';
 import store from '@/store';
 import { message, notification } from 'ant-design-vue';
 
+// 配置 axios 并创建实例
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
 });
 
 // 异常拦截处理器
 const errorHandler = error => {
-  const { response, message } = error;
+  const { response, data, message } = error;
+  // 错误提示
   if (response) {
     const { status, config, statusText } = response;
     if (status === 404) {
@@ -33,36 +35,48 @@ const errorHandler = error => {
       description: '服务器响应超时，请稍后再试',
     });
   }
-  return Promise.reject(error);
+  // 返回错误数据
+  return Promise.reject(data);
 };
-// CancelToken
-const CancelToken = axios.CancelToken;
-let cancel;
 
+// 获取 CancelToken 类
+const CancelToken = axios.CancelToken;
+// 请求队列
+const queue = {};
+
+// 请求拦截器
 request.interceptors.request.use(config => {
-  config.cancelToken = new CancelToken(c => (cancel = c));
+  // 获取请求接口路径
+  const { url } = config;
+  // 请求相同的接口,当上一次请求没有返回结果之前取消
+  queue[url] && queue[url]('取消重复请求');
+  // 为每个请求添加 cancelToken
+  config.cancelToken = new CancelToken(cancel => {
+    queue[url] = cancel;
+  });
   return config;
 }, errorHandler);
 
+// 响应拦截器
 request.interceptors.response.use(response => {
   const { retcode, msg, data } = response.data;
   // 正确情况
   if (retcode === 0) {
+    delete queue[response.config.url];
     return Promise.resolve(data);
   }
-  // 系统异常
-  if (retcode >= 50000 && retcode < 60000) {
-    message.error(msg);
-    return Promise.reject(response.data);
+  // 当发生错误时,取消通过 Promise.all() 发送的请求
+  for (const url in queue) {
+    queue[url]('取消后续请求！');
+    delete queue[url];
   }
+  // 提示错误消息
+  message.error(msg);
   // 登录超时
   if (retcode === 10028) {
-    message.error(msg);
-    cancel('登录超时，取消后续请求！');
     store.commit('user/clearUserInfo');
-    return Promise.reject(response.data);
   }
-  return Promise.reject(response.data);
+  return Promise.reject(response);
 }, errorHandler);
 
 export default request;
