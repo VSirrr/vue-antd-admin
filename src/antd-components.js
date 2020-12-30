@@ -40,6 +40,9 @@ import {
 } from 'ant-design-vue';
 import PageLoading from 'components/PageLoading';
 
+// 最大显示数, 超过限制时，最早的消息会被自动关闭
+message.config({ maxCount: 1 });
+
 // https://github.com/vueComponent/ant-design-vue/issues/2592
 if ('ActiveXObject' in window) {
   Input.methods.handleReset = function() {
