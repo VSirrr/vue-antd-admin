@@ -58,11 +58,11 @@ request.interceptors.request.use(config => {
 }, errorHandler);
 
 // 响应拦截器
-request.interceptors.response.use(response => {
-  const { retcode, msg, data } = response.data;
+request.interceptors.response.use(({ config, data: result }) => {
+  const { retcode, msg, data } = result;
   // 正确情况
   if (retcode === 0) {
-    delete queue[response.config.url];
+    delete queue[config.url];
     return Promise.resolve(data);
   }
   // 当发生错误时,取消通过 Promise.all() 发送的请求
@@ -71,12 +71,15 @@ request.interceptors.response.use(response => {
     delete queue[url];
   }
   // 提示错误消息
-  message.error(msg);
+  if (retcode >= 50000 && retcode < 60000) {
+    message.error(msg);
+  }
   // 登录超时
   if (retcode === 10028) {
+    message.error(msg);
     store.commit('user/clearUserInfo');
   }
-  return Promise.reject(response);
+  return Promise.reject(result);
 }, errorHandler);
 
 export default request;
