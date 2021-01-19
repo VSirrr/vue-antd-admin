@@ -20,17 +20,13 @@ export default {
   computed: {
     /**
      * @description 根据 meta 中的 参数去判断是否显示在面包屑中
-     * @param {boolean} notShowBreadcrumb 不显示整个面包屑
      * @param {string} title 在面包屑中显示的文字，不设置就不显示
      */
     breadcrumbs() {
       // 去掉根路径 '/'
       const routes = this.$route.matched.slice(1);
-      // notShowBreadcrumb = true 不显示面包屑
-      if (routes[0].meta.notShowBreadcrumb) {
-        return [];
-      }
       // todo 过滤掉路径相同的 route
+
       // 过滤掉没有设置 title 的 route
       return routes.filter(route => route.meta.title);
     },

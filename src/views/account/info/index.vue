@@ -1,13 +1,13 @@
 <template>
   <a-card :bordered="false">
     <a-form
-      class="form"
       :form="form"
+      class="layout-form"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 18 }"
     >
       <a-form-item :wrapper-col="{ span: 18, offset: 6 }">
-        <h4 class="form-title">操作员信息</h4>
+        <h4 class="layout-form-title">操作员信息</h4>
       </a-form-item>
       <a-form-item label="姓名">
         {{ userName }}
@@ -30,9 +30,9 @@
 
 <script>
 import { REG_PHONE } from 'utils/reg';
-import { mapGetters, mapMutations } from 'vuex';
 import PhoneInput from 'components/PhoneInput';
-import { modifyOperatorPhone } from 'api/operator';
+import { mapGetters, mapMutations } from 'vuex';
+import { validModifyOperatorPhone, modifyOperatorPhone } from 'api/operator';
 
 export default {
   name: 'AccountInfo',
@@ -40,45 +40,63 @@ export default {
     PhoneInput,
   },
   computed: {
-    ...mapGetters(['userId', 'userPhone', 'userName', 'userType']),
+    ...mapGetters(['userPhone', 'userName', 'userType']),
   },
   methods: {
     ...mapMutations('user', ['clearUserInfo']),
+    // 点击提交按钮，校验手机号
     validateForm() {
-      this.form.validateFields((errors, values) => {
+      this.form.validateFields(async (errors, { phone }) => {
         if (errors) return;
-        this.$confirm({
-          title: '提示',
-          icon: () => (
-            <a-icon theme="filled" style="color: #1890ff" type="info-circle" />
-          ),
-          content:
-            '修改后的新手机号将会作为登录账号，密码不会发生改变，点击确定即将进行修改并退出登录，继续吗？',
-          onOk: async () => {
-            await this.submit(values);
-          },
-        });
+        try {
+          // 校验手机号
+          await validModifyOperatorPhone({
+            newPhone: phone,
+          });
+          // 校验手机号通过之后弹出提示框
+          this.showTips(phone);
+        } catch (error) {
+          this.catchError(error, phone);
+        }
       });
     },
-    async submit({ phone }) {
+    // 修改手机号
+    async submit(phone) {
       try {
         await modifyOperatorPhone({
           newPhone: phone,
-          userId: this.userId,
         });
         this.$message.success('操作成功');
         this.clearUserInfo();
       } catch (error) {
-        console.error(error);
-        const { retcode, msg } = error;
-        if (retcode === 30000) {
-          this.form.setFields({
-            phone: {
-              value: phone,
-              errors: [new Error(msg)],
-            },
-          });
-        }
+        this.catchError(error, phone);
+      }
+    },
+    // 修改手机号提示框
+    showTips(phone) {
+      this.$confirm({
+        title: '提示',
+        icon: () => (
+          <a-icon theme="filled" style="color: #1890ff" type="info-circle" />
+        ),
+        content:
+          '修改后的新手机号将会作为登录账号，密码不会发生改变，点击确定即将进行修改并退出登录，继续吗？',
+        onOk: async () => {
+          await this.submit(phone);
+        },
+      });
+    },
+    // 处理错误信息
+    catchError(error, phone) {
+      console.error(error);
+      const { retcode, msg } = error;
+      if (retcode === 10001 || retcode === 10050) {
+        this.form.setFields({
+          phone: {
+            value: phone,
+            errors: [new Error(msg)],
+          },
+        });
       }
     },
   },
@@ -108,7 +126,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import 'styles/form';
 @import 'styles/variable';
 
 .tips {

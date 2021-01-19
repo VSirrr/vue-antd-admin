@@ -20,19 +20,21 @@
       <!-- 操作 -->
       <template #operate="{ userStatus, userType, userName, id }">
         <template v-if="userStatus === 2 && userType === 1">
-          <a class="operate-btn" @click="visible = true">变更管理员</a>
+          <OperateButton @click="visible = true">变更管理员</OperateButton>
         </template>
         <template v-if="userStatus === 2 && userType === 2">
-          <a class="operate-btn" @click="resetPwd(userName, id)">重置密码</a>
-          <a class="operate-btn red" @click="disable(id)">停用</a>
-          <a class="operate-btn red" @click="cancel(id)">注销</a>
+          <OperateButton @click="resetPwd(userName, id)">
+            重置密码
+          </OperateButton>
+          <OperateButton colorRed @click="disable(id)">停用</OperateButton>
+          <OperateButton colorRed @click="cancel(id)">注销</OperateButton>
         </template>
         <template v-if="userStatus === 3">
-          <a class="operate-btn" @click="enable(id)">启用</a>
-          <a class="operate-btn red" @click="cancel(id)">注销</a>
+          <OperateButton @click="enable(id)">启用</OperateButton>
+          <OperateButton colorRed @click="cancel(id)">注销</OperateButton>
         </template>
         <template v-if="userStatus === 5">
-          <a class="operate-btn" @click="cancelRecord(id)">注销记录</a>
+          <OperateButton @click="cancelRecord(id)">注销记录</OperateButton>
         </template>
       </template>
     </RouteTable>
@@ -42,28 +44,30 @@
 </template>
 
 <script>
+import searchTable from 'mixins/searchTable';
 import SearchForm from './components/SearchForm';
+import OperateButton from 'components/OperateButton';
 import RouteTable, { sortColumn } from 'components/Table/Route';
 import {
+  operatorClose,
+  operatorEnable,
+  operatorDisable,
   getCancelRecord,
   resetOperatorPwd,
   queryOperatorList,
-  changeOperatorStatus,
 } from 'api/operator';
 
 export default {
   name: 'Operator',
+  mixins: [searchTable],
   components: {
     RouteTable,
     SearchForm,
+    OperateButton,
     ChangeAdminModal: () => import('./components/ChangeAdminModal'),
   },
   data() {
     return {
-      totalSize: 0,
-      totalPage: 0,
-      tableData: [],
-      loading: false,
       visible: false,
     };
   },
@@ -82,17 +86,17 @@ export default {
         {
           dataIndex: 'phone',
           title: '手机号码',
-          width: 130,
+          width: 140,
         },
         {
           dataIndex: 'userName',
           title: '姓名',
-          width: 120,
+          width: 140,
         },
         {
           dataIndex: 'updateTime',
           title: '更新时间',
-          width: 160,
+          width: 180,
           sorter: true,
           sortOrder: order,
         },
@@ -110,7 +114,7 @@ export default {
         {
           key: 'operate',
           title: '操作',
-          width: 180,
+          width: 200,
           scopedSlots: { customRender: 'operate' },
         },
       ];
@@ -126,7 +130,6 @@ export default {
       try {
         this.loading = true;
         const {
-          field,
           order,
           phone,
           endTime,
@@ -144,7 +147,7 @@ export default {
           userName,
           starTime,
           userStatus,
-          sortColumns: sortColumn(field, order, 'user.UpdateTime'),
+          sortColumns: sortColumn('user.UpdateTime', order),
         });
         this.tableData = list;
         this.totalPage = totalPage;
@@ -214,7 +217,7 @@ export default {
         content:
           '注销账号后不能再重新开通，但是仍然可以用这个手机号再注册，确定注销该操作员吗？',
         onOk: async () => {
-          await changeOperatorStatus({ userId, userStatus: 5 });
+          await operatorClose({ userId });
           this.$message.success('操作成功');
           this.getData();
         },
@@ -229,7 +232,7 @@ export default {
         ),
         content: '确定启用该操作员账号吗？',
         onOk: async () => {
-          await changeOperatorStatus({ userId, userStatus: 2 });
+          await operatorEnable({ userId });
           this.$message.success('操作成功');
           this.getData();
         },
@@ -244,15 +247,12 @@ export default {
         ),
         content: '确定停用该操作员账号吗？',
         onOk: async () => {
-          await changeOperatorStatus({ userId, userStatus: 3 });
+          await operatorDisable({ userId });
           this.$message.success('操作成功');
           this.getData();
         },
       });
     },
-  },
-  created() {
-    this.getData();
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <a-layout-header class="login-header">
-      vue-antd-admin
+      中仓登仓单信息登记服务平台-管理端
     </a-layout-header>
     <div class="login-content">
       <div class="login-content-logo">
@@ -9,7 +9,7 @@
       </div>
       <a-form :form="form">
         <a-form-item>
-          <PhoneInput hasIcon v-decorator="phone" />
+          <PhoneInput hasIcon size="large" v-decorator="phone" />
         </a-form-item>
         <a-form-item>
           <a-input-password
@@ -23,10 +23,16 @@
           </a-input-password>
         </a-form-item>
         <a-form-item>
-          <PictureCodeInput v-decorator="pictureCode" />
+          <PictureCodeInput ref="pictureCodeInput" v-decorator="pictureCode" />
         </a-form-item>
         <a-form-item>
-          <a-button block size="large" :loading="submitting" @click="submit">
+          <a-button
+            block
+            size="large"
+            type="primary"
+            :loading="submitting"
+            @click="submit"
+          >
             登 录
           </a-button>
         </a-form-item>
@@ -65,26 +71,35 @@ export default {
           console.error(error);
           const { retcode, msg } = error;
           const { phone, password, pictureCode } = values;
-          if (retcode === 30001) {
+          // 密码错误或者验证码失效，重新获取验证码
+          if (retcode === 10048 || retcode === 10054) {
+            this.$refs.pictureCodeInput.refresh();
+          }
+          if (retcode === 10000) {
             this.form.setFields({
               phone: {
                 value: phone,
                 errors: [new Error(msg)],
               },
             });
-          } else if (retcode === 30002) {
+          } else if (retcode === 10048) {
             this.form.setFields({
               password: {
                 value: password,
                 errors: [new Error(msg)],
               },
             });
-          } else if (retcode === 30003) {
+          } else if (retcode === 10053 || retcode === 10054) {
             this.form.setFields({
               pictureCode: {
                 value: pictureCode,
                 errors: [new Error(msg)],
               },
+            });
+          } else if (retcode === 20001) {
+            this.$warning({
+              title: '提示',
+              content: msg,
             });
           }
         } finally {
@@ -98,7 +113,7 @@ export default {
     this.phone = [
       'phone',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -114,7 +129,7 @@ export default {
     this.password = [
       'password',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -130,7 +145,7 @@ export default {
     this.pictureCode = [
       'pictureCode',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -150,6 +165,7 @@ export default {
 <style lang="less" scoped>
 @import 'styles/variable';
 @import 'styles/mixin';
+
 .login {
   height: 100%;
   &-header {

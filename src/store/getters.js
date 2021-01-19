@@ -1,4 +1,6 @@
 export default {
+  // 用户菜单
+  routes: state => state.user.routes,
   // 用户 id
   userId: state => state.user.userInfo.id,
   // 手机号

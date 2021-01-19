@@ -6,7 +6,7 @@ export default {
   name: 'RouteTable',
   mixins: [table],
   computed: {
-    _pagination() {
+    $_pagination() {
       const { totalSize, totalPage, $route } = this;
       const { pageNo = 1, pageSize = 10 } = $route.query;
       // 总数量是否大于 100

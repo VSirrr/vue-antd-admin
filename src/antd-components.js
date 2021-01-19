@@ -9,6 +9,7 @@ import {
   Checkbox,
   Col,
   DatePicker,
+  Divider,
   Form,
   FormModel,
   Icon,
@@ -39,6 +40,10 @@ import {
   notification,
 } from 'ant-design-vue';
 import PageLoading from 'components/PageLoading';
+// moment locale
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 // 最大显示数, 超过限制时，最早的消息会被自动关闭
 message.config({ maxCount: 1 });
@@ -60,6 +65,7 @@ const components = [
   Checkbox,
   Col,
   DatePicker,
+  Divider,
   Form,
   FormModel,
   Icon,

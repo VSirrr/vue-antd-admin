@@ -1,18 +1,17 @@
 <template>
   <a-card :bordered="false">
     <a-form
-      class="form"
       :form="form"
+      class="layout-form"
       :label-col="{ span: 5 }"
       :wrapper-col="{ span: 19 }"
     >
       <a-form-item :wrapper-col="{ sm: { span: 19, offset: 5 } }">
-        <h4 class="form-title">操作员信息录入</h4>
+        <h4 class="layout-form-title">操作员信息录入</h4>
       </a-form-item>
       <a-form-item required label="姓名">
         <a-input
           allow-clear
-          size="large"
           :maxLength="50"
           style="width: 380px;"
           v-decorator="userName"
@@ -26,18 +25,16 @@
       <a-form-item required label="密码">
         <a-input
           allow-clear
-          size="large"
           type="password"
           :maxLength="30"
           style="width: 380px;"
           v-decorator="password"
-          placeholder="6~30位数字或字母"
+          placeholder="6~30位数字、字母、符号的组合"
         />
       </a-form-item>
       <a-form-item required label="角色">
         <a-select
           allow-clear
-          size="large"
           placeholder="请选择"
           style="width: 380px;"
           v-decorator="userType"
@@ -48,10 +45,10 @@
         </a-select>
       </a-form-item>
       <a-form-item :wrapper-col="{ sm: { span: 19, offset: 5 } }">
-        <a-button size="large" type="primary" @click="submit">
+        <a-button type="primary" @click="submit">
           提交
         </a-button>
-        <a-button size="large" style="margin-left: 24px;" @click="back">
+        <a-button style="margin-left: 24px;" @click="back">
           取消
         </a-button>
       </a-form-item>
@@ -80,11 +77,11 @@ export default {
             password: md5(values.password),
           });
           this.$message.success('操作成功');
-          this.back();
+          this.$router.push('/operator');
         } catch (error) {
           console.error(error);
           const { retcode, msg } = error;
-          if (retcode === 30000) {
+          if (retcode === 10001) {
             this.form.setFields({
               phone: {
                 value: values.phone,
@@ -104,7 +101,7 @@ export default {
     this.userName = [
       'userName',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -120,7 +117,7 @@ export default {
     this.phone = [
       'phone',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -136,7 +133,7 @@ export default {
     this.password = [
       'password',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -160,7 +157,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import 'styles/form';
 @import 'styles/variable';
 
 .tip {

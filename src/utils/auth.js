@@ -1,7 +1,7 @@
 import md5 from 'md5';
 import storage from './storage';
 
-const TOKEN_KEY = 'vue-antd-admin';
+const TOKEN_KEY = 'token';
 
 // 设置 token
 export const setToken = token => storage.set(TOKEN_KEY, md5(token));

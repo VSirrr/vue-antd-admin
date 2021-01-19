@@ -2,6 +2,7 @@
 /**
  * @param {boolean} hideChildren 隐藏所有子菜单
  * @param {boolean} hidden 在菜单中隐藏本路由对应的菜单
+ * @param {string} icon meta 中设置 icon(ant-design-vue 中的 icon 组件类型)，则在菜单中显示图标
  */
 export default {
   name: 'MenuItem',

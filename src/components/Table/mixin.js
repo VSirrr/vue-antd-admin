@@ -25,7 +25,7 @@ export default {
   },
   render() {
     const props = {};
-    const { $slots, change, _pagination, $scopedSlots } = this;
+    const { $slots, change, $_pagination, $scopedSlots } = this;
     // 处理 props
     Object.keys(T.props).forEach(k => {
       if (this[k]) {
@@ -33,7 +33,7 @@ export default {
       }
     });
     // 自定义 pagination
-    props.pagination = _pagination;
+    props.pagination = $_pagination;
 
     return (
       <a-table
@@ -48,9 +48,9 @@ export default {
 };
 
 // 对排序字段格式化
-export function sortColumn(field, order, key) {
-  if (!field && !order) {
-    return null;
+export function sortColumn(key, order) {
+  if (!order) {
+    return undefined;
   }
   return `${key} ${order.replace('end', '').toUpperCase()}`;
 }

@@ -1,24 +1,34 @@
 import md5 from 'md5';
-import router from '@/router';
-import { getUser } from 'api/user';
-import { login, logout } from 'api/operator';
 import { setToken, removeToken } from 'utils/auth';
+import { login, logout, getOperator } from 'api/operator';
+import router, { resetRouter, adminRoutes, operatorRoutes } from '@/router';
 
 export default {
   namespaced: true,
   state: {
     // 用户信息
     userInfo: {},
+    // 用户菜单
+    routes: [],
   },
   mutations: {
     // 处理用户信息
     dealUserInfo: (state, data) => {
+      if (data.userType === 1) {
+        state.routes = adminRoutes;
+        router.addRoutes(adminRoutes);
+      } else {
+        state.routes = operatorRoutes;
+        router.addRoutes(operatorRoutes);
+      }
       state.userInfo = data;
     },
     // 清空用户信息
     clearUserInfo: state => {
       removeToken();
+      resetRouter();
       router.push('/login');
+      state.routes = [];
       state.userInfo = {};
     },
   },
@@ -42,7 +52,7 @@ export default {
     // 获取用户信息
     async getUserInfo({ commit }) {
       try {
-        const data = await getUser();
+        const data = await getOperator();
         commit('dealUserInfo', data);
         return Promise.resolve(data);
       } catch (error) {

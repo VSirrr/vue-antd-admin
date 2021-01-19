@@ -27,31 +27,6 @@ import { mapMutations } from 'vuex';
 
 // 1 MB
 const MB = 1024 * 1024;
-// 文件类型
-const MIMETYPES = {
-  '.zip': ['application/x-zip-compressed'],
-  '.jpg': ['image/jpeg'],
-  '.png': ['image/png'],
-  '.gif': ['image/gif'],
-  '.swf': ['application/x-shockwave-flash'],
-  '.doc': ['application/msword'],
-  '.xls': ['application/vnd.ms-excel'],
-  '.docx': [
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  ],
-  '.xlsx': [
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  ],
-  '.ppt': ['application/vnd.ms-powerpoint'],
-  '.pptx': [
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  ],
-  '.mp3': ['audio/mpeg'],
-  '.mp4': ['video/mp4'],
-  '.pdf': ['application/pdf'],
-  '.txt': ['text/plain'],
-  '.xml': ['text/xml'],
-};
 
 export default {
   name: 'Upload',
@@ -91,36 +66,29 @@ export default {
       unqualified: false,
     };
   },
-  computed: {
-    // 限制接收文件的类型
-    acceptTypes() {
-      const types = [];
-      this.accept.split(',').forEach(type => {
-        types.push(...MIMETYPES[type]);
-      });
-      return types;
-    },
-  },
   methods: {
     ...mapMutations('user', ['clearUserInfo']),
     beforeUpload(file) {
-      const { acceptTypes, limit, limitSize, fileList = [] } = this;
-      const { size, type } = file;
-      if (fileList.length >= limit) {
-        file.status = 'error';
-        this.$message.error(`超出上传文件最大个数`);
-        this.unqualified = true;
-        return false;
-      }
-      if (!acceptTypes.includes(type)) {
+      const { size, name } = file;
+      const { limit, accept, limitSize, fileList = [] } = this;
+      // 判断文件类型
+      if (!accept.includes(name.slice(name.lastIndexOf('.')))) {
         file.status = 'error';
         this.$message.error('文件类型不符合要求');
         this.unqualified = true;
         return false;
       }
+      // 判断文件大小
       if (size / MB > limitSize) {
         file.status = 'error';
         this.$message.error('文件大小超出限制');
+        this.unqualified = true;
+        return false;
+      }
+      // 判断文件个数是否超出限制
+      if (fileList.length >= limit) {
+        file.status = 'error';
+        this.$message.error(`超出上传文件最大个数`);
         this.unqualified = true;
         return false;
       }
@@ -150,9 +118,9 @@ export default {
                   this.clearUserInfo();
                 }
               } else {
-                const { basePath, fileName } = data;
-                file.url = `/files/previewFile?&basePath=${basePath}&fileName=${encodeURIComponent(
-                  fileName,
+                const { basePath, fileName, originFileName } = data;
+                file.url = `/files/previewFile?&basePath=${basePath}&fileName=${fileName}&originFileName=${encodeURIComponent(
+                  originFileName,
                 )}`;
               }
             }

@@ -129,7 +129,7 @@ export default {
         color: #969799;
         & > label {
           display: inline-block;
-          width: 120px;
+          width: 130px;
           font-weight: 700;
           text-align: right;
           color: #323233;

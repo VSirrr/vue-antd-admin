@@ -3,14 +3,27 @@ const Mock = require('mockjs');
 
 const { Random } = Mock;
 const PWD = md5('qwer1234');
-const PHONE = '13333333333';
 
-const userInfo = {
-  id: 123,
-  phone: PHONE,
-  userName: '天道酬勤',
-  userStatus: 1,
+const adminPhone = '18888888888';
+const operatorPhone = '13333333333';
+
+let loginUserPhone = operatorPhone;
+
+const adminInfo = {
+  id: 1,
   userType: 1,
+  userStatus: 1,
+  phone: adminPhone,
+  userName: '天道酬勤',
+  userTypeDesc: '超级管理员',
+};
+
+const operatorInfo = {
+  id: 2,
+  phone: operatorPhone,
+  userName: '天道酬勤',
+  userStatus: 2,
+  userType: 2,
   userTypeDesc: '操作员',
 };
 
@@ -51,34 +64,110 @@ module.exports = [
     type: 'post',
     response: req => {
       const { password, phone, pictureCode } = req.body;
-      if (phone !== PHONE) {
+      console.log(phone);
+
+      if (pictureCode === '3333') {
         return {
-          retcode: 30001,
-          msg: '手机号未注册',
+          retcode: 10054,
+          msg: '图片验证码已过期',
         };
-      } else if (pictureCode !== '1234') {
+      }
+
+      if (pictureCode !== '1234') {
         return {
-          retcode: 30003,
+          retcode: 10053,
           msg: '图片验证码不正确',
         };
-      } else if (phone === PHONE && password !== PWD) {
-        return {
-          retcode: 30002,
-          msg: '密码不正确',
-        };
-      } else if (phone === PHONE && password === PWD) {
+      }
+
+      // 超级管理员
+      if (phone === adminPhone && password === PWD) {
+        loginUserPhone = adminPhone;
         return {
           retcode: 0,
           msg: 'ok',
-          data: userInfo,
+          data: adminInfo,
         };
       }
+      // 操作员
+      if (phone === operatorPhone && password === PWD) {
+        loginUserPhone = operatorPhone;
+        return {
+          retcode: 0,
+          msg: 'ok',
+          data: operatorInfo,
+        };
+      }
+      // 用户密码错误
+      if (
+        (phone === operatorPhone || phone === adminPhone) &&
+        password !== PWD
+      ) {
+        return {
+          retcode: 10048,
+          msg: '用户密码错误',
+        };
+      }
+
+      if (phone === '15555555555') {
+        return {
+          retcode: 20001,
+          msg: '该账号不可登录，请联系管理员',
+        };
+      }
+
+      return {
+        retcode: 10000,
+        msg: '此手机号未注册，请先进行注册',
+      };
     },
   },
   {
     url: '/operator/logout',
-    type: 'post',
+    type: 'get',
     response: () => {
+      return {
+        retcode: 0,
+        msg: 'ok',
+      };
+    },
+  },
+  {
+    url: '/operator/getOperator',
+    type: 'get',
+    response: () => {
+      let userInfo = {};
+
+      if (loginUserPhone === adminPhone) {
+        userInfo = adminInfo;
+      } else if (loginUserPhone === operatorPhone) {
+        userInfo = operatorInfo;
+      }
+
+      return {
+        retcode: 0,
+        msg: 'ok',
+        data: userInfo,
+      };
+    },
+  },
+  {
+    url: '/operator/validModifyOperatorPhone',
+    type: 'post',
+    response: req => {
+      const { newPhone } = req.body;
+      if (newPhone === loginUserPhone) {
+        return {
+          retcode: 10050,
+          msg: '新手机号不能与原手机号相同',
+        };
+      }
+      if (newPhone === '15555555555') {
+        return {
+          retcode: 10001,
+          msg: '手机号已注册，请更换其他手机号',
+        };
+      }
       return {
         retcode: 0,
         msg: 'ok',
@@ -90,16 +179,21 @@ module.exports = [
     type: 'post',
     response: req => {
       const { newPhone } = req.body;
-      if (newPhone === PHONE) {
+      if (newPhone === loginUserPhone) {
         return {
-          retcode: 30000,
+          retcode: 10050,
+          msg: '新手机号不能与原手机号相同',
+        };
+      }
+      if (newPhone === '15555555555') {
+        return {
+          retcode: 10001,
           msg: '手机号已注册，请更换其他手机号',
         };
       }
       return {
         retcode: 0,
         msg: 'ok',
-        data: userInfo,
       };
     },
   },
@@ -110,25 +204,39 @@ module.exports = [
       const { userOldPwd, userNewPwd } = req.body;
       if (userOldPwd !== PWD) {
         return {
-          retcode: 30000,
-          msg: '密码不正确',
+          retcode: 10003,
+          msg: '原密码错误',
         };
       }
       if (userNewPwd === PWD) {
         return {
-          retcode: 30001,
-          msg: '新密码不能与老密码相同',
+          retcode: 10037,
+          msg: '新密码不能与原密码相同',
         };
       }
       return {
         retcode: 0,
         msg: 'ok',
-        data: userInfo,
       };
     },
   },
   {
     url: '/operator/queryOperatorList',
+    type: 'post',
+    response: () => {
+      return {
+        retcode: 0,
+        msg: 'ok',
+        data: {
+          list,
+          totalPage: Math.ceil(list.length / 10),
+          totalSize: list.length,
+        },
+      };
+    },
+  },
+  {
+    url: '/operator/findChooseOperatorList',
     type: 'post',
     response: () => {
       return {
@@ -171,17 +279,6 @@ module.exports = [
     },
   },
   {
-    url: '/operator/changeOperatorStatus',
-    type: 'post',
-    response: () => {
-      return {
-        retcode: 0,
-        msg: 'ok',
-        data: true,
-      };
-    },
-  },
-  {
     url: '/operator/changeAdmin',
     type: 'post',
     response: () => {
@@ -196,9 +293,9 @@ module.exports = [
     url: '/operator/registerOperator',
     type: 'post',
     response: req => {
-      if (req.body.phone === PHONE) {
+      if (req.body.phone === operatorPhone) {
         return {
-          retcode: 30000,
+          retcode: 10001,
           msg: '手机号已注册，请更换其他手机号',
         };
       }
@@ -206,6 +303,39 @@ module.exports = [
         retcode: 0,
         msg: 'ok',
         data: true,
+      };
+    },
+  },
+  {
+    url: '/operator/operatorClose',
+    type: 'post',
+    response: () => {
+      return {
+        retcode: 0,
+        msg: '',
+        data: null,
+      };
+    },
+  },
+  {
+    url: '/operator/operatorDisable',
+    type: 'post',
+    response: () => {
+      return {
+        retcode: 0,
+        msg: '',
+        data: null,
+      };
+    },
+  },
+  {
+    url: '/operator/operatorEnable',
+    type: 'post',
+    response: () => {
+      return {
+        retcode: 0,
+        msg: '',
+        data: null,
       };
     },
   },

@@ -19,21 +19,23 @@ export const downloadFile = link => {
 /**
  * @description 处理上传的文件
  * @param {array} 文件集合
- * @returns 非数组或空数组：返回 null，否则返回 [{basePath: '', fileName: ''}]
+ * @returns 非数组或空数组：返回 null，否则返回 [{basePath: '', fileName: '' ,originFileName: ''}]
  */
 export const dealFileList = fileList => {
   return Array.isArray(fileList) && fileList.length > 0
     ? fileList.map(item => {
         let basePath;
         let fileName;
+        let originFileName;
         if (item.response) {
-          ({ basePath, fileName } = item.response.data);
+          ({ basePath, fileName, originFileName } = item.response.data);
         } else {
-          ({ basePath, fileName } = item);
+          ({ basePath, fileName, originFileName } = item);
         }
         return {
           basePath,
           fileName,
+          originFileName,
         };
       })
     : null;

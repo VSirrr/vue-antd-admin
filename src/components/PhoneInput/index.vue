@@ -22,7 +22,7 @@ export default {
     value: String,
     size: {
       type: String,
-      default: 'large',
+      default: 'default',
     },
     hasIcon: {
       type: Boolean,

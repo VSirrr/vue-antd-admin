@@ -1,42 +1,31 @@
 <template>
   <a-card :bordered="false">
     <a-form
-      class="form"
       :form="form"
+      class="layout-form"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 14 }"
     >
       <a-form-item :wrapper-col="{ span: 14, offset: 6 }">
-        <h4 class="form-title">修改密码</h4>
+        <h4 class="layout-form-title">修改密码</h4>
       </a-form-item>
       <a-form-item required label="原密码">
-        <a-input-password
-          size="large"
-          placeholder="请输入原密码"
-          v-decorator="oldPwd"
-        />
+        <a-input-password placeholder="请输入原密码" v-decorator="oldPwd" />
       </a-form-item>
       <a-form-item required label="新密码">
         <a-input-password
-          size="large"
           v-decorator="newPwd"
           placeholder="请输入新密码（6~30位字母、数字或符号）"
         />
       </a-form-item>
       <a-form-item required label="确认密码">
         <a-input-password
-          size="large"
           placeholder="再次输入新密码"
           v-decorator="newPwdRepeat"
         />
       </a-form-item>
       <a-form-item :wrapper-col="{ sm: { span: 14, offset: 6 } }">
-        <a-button
-          size="large"
-          type="primary"
-          style="width: 120px"
-          @click="validateForm"
-        >
+        <a-button type="primary" style="width: 120px;" @click="validateForm">
           确定修改
         </a-button>
       </a-form-item>
@@ -46,15 +35,11 @@
 
 <script>
 import md5 from 'md5';
-import { mapGetters } from 'vuex';
 import { REG_PASSWORD } from 'utils/reg';
 import { modifyOperatorPwd } from 'api/operator';
 
 export default {
   name: 'AccountPwd',
-  computed: {
-    ...mapGetters(['userId']),
-  },
   methods: {
     validateForm() {
       this.form.validateFields((errors, values) => {
@@ -74,7 +59,6 @@ export default {
     async submit({ oldPwd, newPwd, newPwdRepeat }) {
       try {
         await modifyOperatorPwd({
-          userId: this.userId,
           userOldPwd: md5(oldPwd),
           userNewPwd: md5(newPwd),
           userNewPwdRepeat: md5(newPwdRepeat),
@@ -84,14 +68,14 @@ export default {
       } catch (error) {
         console.error(error);
         const { retcode, msg } = error;
-        if (retcode === 30000) {
+        if (retcode === 10003) {
           this.form.setFields({
             oldPwd: {
               value: oldPwd,
               errors: [new Error(msg)],
             },
           });
-        } else if (retcode === 30001) {
+        } else if (retcode === 10037) {
           this.form.setFields({
             newPwd: {
               value: newPwd,
@@ -107,7 +91,7 @@ export default {
     this.oldPwd = [
       'oldPwd',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -123,7 +107,7 @@ export default {
     this.newPwd = [
       'newPwd',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             required: true,
@@ -139,7 +123,7 @@ export default {
     this.newPwdRepeat = [
       'newPwdRepeat',
       {
-        validateTrigger: '',
+        validateTrigger: 'blur',
         rules: [
           {
             validator: (rule, value, callback) => {
@@ -158,7 +142,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-@import 'styles/form';
-</style>

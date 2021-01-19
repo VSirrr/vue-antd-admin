@@ -13,9 +13,9 @@
     >
       <a-icon slot="prefix" type="safety" />
     </a-input>
-    <img class="code" :src="imgSrc" alt="图片验证码" />
-    <!-- <a-spin v-else /> -->
-    <a class="refresh" :disabled="disabled" @click="toggle">
+    <img class="code" :src="imgSrc" v-if="imgSrc" alt="图片验证码" />
+    <a-spin v-else class="code" style="vertical-align: 0;" />
+    <a class="refresh" :disabled="spin" @click="refresh">
       <a-icon type="reload" :spin="spin" />
       刷新
     </a>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { getPictureCode } from 'api/msg';
 import { formatPicCode } from 'utils/format';
 
 export default {
@@ -36,19 +37,23 @@ export default {
   },
   data() {
     return {
-      imgSrc: 'http://ats.cfaoe.com/captcha/getcode.do?s=login',
+      imgSrc: '',
       spin: false,
-      disabled: false,
     };
   },
   methods: {
     // 获取验证码
     async getData() {
-      // this.imgSrc = await getPicCode();
+      try {
+        const qrcode = await getPictureCode();
+        this.imgSrc = `data:image/png;base64,${qrcode}`;
+      } catch (error) {
+        console.error(error);
+      }
     },
     // 刷新验证码
-    async toggle() {
-      if (this.disabled || this.spin) {
+    async refresh() {
+      if (this.spin) {
         return;
       }
       this.spin = true;
@@ -64,9 +69,9 @@ export default {
       this.$emit('blur', e);
     },
   },
-  // created() {
-  //   this.getData();
-  // },
+  created() {
+    this.getData();
+  },
 };
 </script>
 
@@ -82,7 +87,8 @@ a.refresh {
   transition: transform 0.3s;
   user-select: none;
   &[disabled] {
-    color: rgba(0, 0, 0, 0.25) !important;
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
   }
 }
 </style>

@@ -8,11 +8,26 @@ export const login = data =>
     data,
   });
 
+// 获取登录用户的信息
+export const getOperator = () =>
+  request({
+    url: '/operator/getOperator',
+    method: 'get',
+  });
+
 // 登出
 export const logout = () =>
   request({
     url: '/operator/logout',
+    method: 'get',
+  });
+
+// 修改手机号前校验手机号
+export const validModifyOperatorPhone = data =>
+  request({
+    url: '/operator/validModifyOperatorPhone',
     method: 'post',
+    data,
   });
 
 // 修改手机号
@@ -39,6 +54,14 @@ export const queryOperatorList = data =>
     data,
   });
 
+// 变更管理员分页列表
+export const findChooseOperatorList = data =>
+  request({
+    url: '/operator/findChooseOperatorList',
+    method: 'post',
+    data,
+  });
+
 // 操作员注销记录
 export const getCancelRecord = params =>
   request({
@@ -55,14 +78,6 @@ export const resetOperatorPwd = data =>
     data,
   });
 
-// 操作员状态变更
-export const changeOperatorStatus = data =>
-  request({
-    url: '/operator/changeOperatorStatus',
-    method: 'post',
-    data,
-  });
-
 // 变更操作员
 export const changeAdmin = data =>
   request({
@@ -75,6 +90,54 @@ export const changeAdmin = data =>
 export const registerOperator = data =>
   request({
     url: '/operator/registerOperator',
+    method: 'post',
+    data,
+  });
+
+// 操作员注销
+export const operatorClose = data =>
+  request({
+    url: '/operator/operatorClose',
+    method: 'post',
+    data,
+  });
+
+// 操作员停用
+export const operatorDisable = data =>
+  request({
+    url: '/operator/operatorDisable',
+    method: 'post',
+    data,
+  });
+
+// 操作员启用
+export const operatorEnable = data =>
+  request({
+    url: '/operator/operatorEnable',
+    method: 'post',
+    data,
+  });
+
+// 用户列表
+export const queryUserList = data =>
+  request({
+    url: '/operator/queryUserList',
+    method: 'post',
+    data,
+  });
+
+// 用户启用
+export const userEnable = data =>
+  request({
+    url: '/operator/userEnable',
+    method: 'post',
+    data,
+  });
+
+// 用户停用
+export const userDisable = data =>
+  request({
+    url: '/operator/userDisable',
     method: 'post',
     data,
   });

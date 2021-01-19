@@ -11,7 +11,7 @@ export const REG_PASSWORD = /^((?=.*\d)(?=.*\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.
 // 手机验证码
 export const REG_CAPTCHA = /^\d{6}$/;
 // 社会信用代码
-export const REG_CREADIT_CODE = /^[0-9A-Z]{18}$/;
+export const REG_CREADIT_CODE = /^[0-9A-HJ-NPQRTUWXY]{2}\d{6}[0-9A-HJ-NPQRTUWXY]{10}$/;
 // 空白
 export const REG_SPACE = /\s/g;
 // 银行卡号

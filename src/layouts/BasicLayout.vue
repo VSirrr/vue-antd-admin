@@ -35,7 +35,7 @@
         :style="{ left: collapsed ? '80px' : '256px' }"
       >
         <a-layout-header>
-          <span v-show="userName"> 操作员：{{ userName }} </span>
+          <span v-show="userName"> {{ userType }}：{{ userName }} </span>
           <a-icon class="logout" type="logout" @click="logoutConfirm" />
         </a-layout-header>
         <!-- breadcrumb -->
@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { routes } from '@/router';
 import MenuItem from './components/MenuItem';
 import { mapGetters, mapActions } from 'vuex';
 import Breadcrumb from './components/Breadcrumb';
@@ -70,9 +69,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([/* 'routes', */ 'userName']),
+    ...mapGetters(['routes', 'userName', 'userType']),
     menus() {
-      // const { routes } = this;
+      const { routes } = this;
       if (routes.length) {
         return routes[0].children;
       }

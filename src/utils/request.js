@@ -35,7 +35,7 @@ const errorHandler = error => {
       description: '服务器响应超时，请稍后再试',
     });
   }
-  // 返回错误数据
+  // 返回错误信息
   return Promise.reject(data);
 };
 
@@ -70,7 +70,7 @@ request.interceptors.response.use(({ config, data: result }) => {
     queue[url]('取消后续请求！');
     delete queue[url];
   }
-  // 提示错误消息
+  // 错误提示
   if (retcode >= 50000 && retcode < 60000) {
     message.error(msg);
   }
@@ -79,6 +79,7 @@ request.interceptors.response.use(({ config, data: result }) => {
     message.error(msg);
     store.commit('user/clearUserInfo');
   }
+  // 返回错误信息
   return Promise.reject(result);
 }, errorHandler);
 

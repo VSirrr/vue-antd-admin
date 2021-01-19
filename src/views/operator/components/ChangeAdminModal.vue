@@ -2,6 +2,7 @@
   <a-modal :width="600" title="变更管理员" :visible="visible" @cancel="close">
     <p class="tip">请选择超级管理员</p>
     <Table
+      size="small"
       class="table"
       :pageNo="pageNo"
       :columns="columns"
@@ -13,8 +14,8 @@
       :dataSource="tableData"
       @change="change"
     >
-      <template #operate="{ userName, userId }">
-        <a-button size="small" @click="select(userName, userId)">选择</a-button>
+      <template #operate="{ userName, id }">
+        <a-button size="small" @click="select(userName, id)">选择</a-button>
       </template>
     </Table>
     <template #footer>
@@ -24,24 +25,16 @@
 </template>
 
 <script>
+import modal from 'mixins/modal';
 import { mapMutations } from 'vuex';
 import Table from 'components/Table';
-import { changeAdmin, queryOperatorList } from 'api/operator';
+import { changeAdmin, findChooseOperatorList } from 'api/operator';
 
 export default {
   name: 'ChangeAdminModal',
+  mixins: [modal],
   components: {
     Table,
-  },
-  model: {
-    prop: 'visible',
-    event: 'change',
-  },
-  props: {
-    visible: {
-      type: Boolean,
-      required: true,
-    },
   },
   data() {
     return {
@@ -58,6 +51,7 @@ export default {
         },
         {
           width: 100,
+          title: '操作',
           key: 'operate',
           scopedSlots: { customRender: 'operate' },
         },
@@ -72,17 +66,13 @@ export default {
   },
   methods: {
     ...mapMutations('user', ['clearUserInfo']),
-    close() {
-      this.$emit('change', false);
-    },
     async change(pagination = {}) {
       const { pageNo = 1, pageSize = 10 } = pagination;
       try {
         this.loading = true;
-        const { list, totalSize, totalPage } = await queryOperatorList({
+        const { list, totalSize, totalPage } = await findChooseOperatorList({
           pageNo,
           pageSize,
-          userStatus: 2,
         });
         this.pageNo = pageNo;
         this.tableData = list;

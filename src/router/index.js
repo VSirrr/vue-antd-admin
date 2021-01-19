@@ -1,6 +1,8 @@
 import Vue from 'vue';
-import routes from './routes';
 import Router from 'vue-router';
+import routes from './routes/default';
+import adminRoutes from './routes/admin';
+import operatorRoutes from './routes/operator';
 
 // hack router push callback
 const originalPush = Router.prototype.push;
@@ -23,7 +25,7 @@ Vue.use(Router);
 // 创建路由实例
 const createRouter = () =>
   new Router({
-    mode: process.env.NODE_ENV === 'development' ? 'hash' : 'history',
+    mode: 'history',
     base: process.env.BASE_URL,
     scrollBehavior: () => ({ y: 0 }),
     routes,
@@ -38,6 +40,6 @@ const resetRouter = () => {
   router.matcher = newRouter.matcher;
 };
 
-export { routes, resetRouter };
+export { routes, adminRoutes, operatorRoutes, resetRouter };
 
 export default router;

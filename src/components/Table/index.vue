@@ -15,8 +15,14 @@ export default {
       default: 10,
     },
   },
+  data() {
+    return {
+      field: undefined,
+      order: undefined,
+    };
+  },
   computed: {
-    _pagination() {
+    $_pagination() {
       const { pageNo: current, pageSize, totalSize, totalPage } = this;
 
       return {
@@ -40,7 +46,19 @@ export default {
     change(pagination, filters, sorter) {
       const { current: pageNo, pageSize } = pagination;
       const { field, order } = sorter;
-      this.$emit('change', { pageNo, pageSize, field, order });
+      // 当排序的字段或者顺序发生变化，跳到第一页
+      let reset = false;
+      if (this.field !== field || this.order !== order) {
+        reset = true;
+      }
+      this.order = order;
+      this.field = field;
+      this.$emit('change', {
+        pageSize: reset ? 10 : pageSize,
+        pageNo: reset ? 1 : pageNo,
+        field: order && field,
+        order,
+      });
     },
   },
 };
