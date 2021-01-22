@@ -136,18 +136,18 @@ module.exports = [
     url: '/operator/getOperator',
     type: 'get',
     response: () => {
-      let userInfo = {};
+      let data = {};
 
       if (loginUserPhone === adminPhone) {
-        userInfo = adminInfo;
+        data = adminInfo;
       } else if (loginUserPhone === operatorPhone) {
-        userInfo = operatorInfo;
+        data = operatorInfo;
       }
 
       return {
         retcode: 0,
         msg: 'ok',
-        data: userInfo,
+        data,
       };
     },
   },
