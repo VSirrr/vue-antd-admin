@@ -73,7 +73,7 @@ module.exports = [
         };
       }
 
-      if (pictureCode !== '1234') {
+      if (pictureCode.toLowerCase() !== 'hm58') {
         return {
           retcode: 10053,
           msg: '图片验证码不正确',
