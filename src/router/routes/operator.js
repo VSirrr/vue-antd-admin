@@ -1,7 +1,7 @@
 import account from './account';
 import redirect from './redirect';
 import BasicLayout from '@/layouts/BasicLayout';
-import BlankLayout from '@/layouts/BlankLayout';
+// import BlankLayout from '@/layouts/BlankLayout';
 
 /**
  * @param {string} icon meta 中设置 icon(ant-design-vue 中的 icon 组件类型)，则在菜单中显示图标
@@ -13,18 +13,17 @@ import BlankLayout from '@/layouts/BlankLayout';
 export default [
   {
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/users',
     component: BasicLayout,
     children: [
-      {
+      /*  {
         path: '/dashboard',
         meta: {
           title: '工作台',
           icon: 'dashboard',
         },
         component: () => import('views/dashboard'),
-      },
-      {
+      },{
         path: '/organization',
         redirect: '/organization/platform',
         meta: {
@@ -194,11 +193,11 @@ export default [
           icon: 'alert',
         },
         component: () => import('views/alarm'),
-      },
+      }, */
       {
         path: '/users',
         meta: {
-          title: '查询用户管理',
+          title: '用户管理',
           icon: 'team',
         },
         component: () => import('views/users'),

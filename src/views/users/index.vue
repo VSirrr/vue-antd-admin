@@ -100,19 +100,19 @@ export default {
             return (pageNo - 1) * pageSize + index + 1;
           },
         },
-        {
-          dataIndex: 'companyName',
-          title: '机构名称',
-          width: 200,
-        },
-        {
-          dataIndex: 'companyOrgCode',
-          title: '统一社会信用代码',
-          width: 200,
-        },
+        // {
+        //   dataIndex: 'companyName',
+        //   title: '机构名称',
+        //   width: 200,
+        // },
+        // {
+        //   dataIndex: 'companyOrgCode',
+        //   title: '统一社会信用代码',
+        //   width: 200,
+        // },
         {
           dataIndex: 'userName',
-          title: '注册人',
+          title: '用户名',
           width: 120,
         },
         {
@@ -120,12 +120,12 @@ export default {
           title: '手机号码',
           width: 120,
         },
-        {
-          key: 'queryNumber',
-          title: '查询次数',
-          width: 120,
-          scopedSlots: { customRender: 'queryNumber' },
-        },
+        // {
+        //   key: 'queryNumber',
+        //   title: '查询次数',
+        //   width: 120,
+        //   scopedSlots: { customRender: 'queryNumber' },
+        // },
         {
           key: 'userStatus',
           title: '状态',

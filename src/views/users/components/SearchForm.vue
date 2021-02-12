@@ -1,7 +1,7 @@
 <template>
   <a-form class="search-form" :form="searchForm">
     <a-row :gutter="12">
-      <a-col span="4">
+      <!-- <a-col span="4">
         <a-form-item label="机构名称">
           <a-input
             allow-clear
@@ -22,7 +22,7 @@
             ]"
           />
         </a-form-item>
-      </a-col>
+      </a-col> -->
       <a-col span="4">
         <a-form-item label="状态">
           <a-select
@@ -48,7 +48,7 @@
           </a-select>
         </a-form-item>
       </a-col>
-      <a-col span="5">
+      <a-col span="8">
         <a-form-item label="注册时间">
           <a-range-picker style="width: 100%;" v-decorator="['date']" />
         </a-form-item>
@@ -63,24 +63,24 @@
 </template>
 
 <script>
-import QueryInput from './QueryInput';
+// import QueryInput from './QueryInput';
 import searchForm from 'mixins/searchForm';
 
 export default {
   name: 'SearchForm',
   mixins: [searchForm],
-  components: {
-    QueryInput,
-  },
-  computed: {
-    queryNumber() {
-      const { queryNumberMin = '', queryNumberMax = '' } = this.$route.query;
-      return {
-        queryNumberMin,
-        queryNumberMax,
-      };
-    },
-  },
+  // components: {
+  //   QueryInput,
+  // },
+  // computed: {
+  //   queryNumber() {
+  //     const { queryNumberMin = '', queryNumberMax = '' } = this.$route.query;
+  //     return {
+  //       queryNumberMin,
+  //       queryNumberMax,
+  //     };
+  //   },
+  // },
   methods: {
     setFormInitialValues() {
       const {
@@ -88,17 +88,17 @@ export default {
         starTime,
         userStatus,
         companyName,
-        queryNumberMin,
-        queryNumberMax,
+        // queryNumberMin,
+        // queryNumberMax,
       } = this.$route.query;
 
       this.searchForm.setFieldsValue({
         userStatus,
         companyName,
-        queryNumber: {
-          queryNumberMin,
-          queryNumberMax,
-        },
+        // queryNumber: {
+        //   queryNumberMin,
+        //   queryNumberMax,
+        // },
         date: this.formatDateToMoment({ endTime, starTime }),
       });
     },
