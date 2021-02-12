@@ -13,6 +13,7 @@
         <a-input
           allow-clear
           :maxLength="50"
+          autocomplete="off"
           style="width: 380px;"
           v-decorator="userName"
           placeholder="请输入姓名"
@@ -27,6 +28,7 @@
           allow-clear
           type="password"
           :maxLength="30"
+          autocomplete="off"
           style="width: 380px;"
           v-decorator="password"
           placeholder="6~30位数字、字母、符号的组合"

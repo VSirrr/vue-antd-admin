@@ -42,7 +42,7 @@ export default {
           pictureCode,
         });
         // 设置 token
-        setToken('operator' + Date.now());
+        setToken(data.userName + data.userType);
         commit('dealUserInfo', data);
         return Promise.resolve(data);
       } catch (error) {

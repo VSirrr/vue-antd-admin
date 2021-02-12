@@ -1,29 +1,7 @@
 <template>
   <a-form class="search-form" :form="searchForm">
-    <a-row :gutter="12">
-      <!-- <a-col span="4">
-        <a-form-item label="机构名称">
-          <a-input
-            allow-clear
-            :maxLength="100"
-            placeholder="支持模糊查询"
-            v-decorator="['companyName']"
-          />
-        </a-form-item>
-      </a-col>
-      <a-col span="7">
-        <a-form-item label="查询次数">
-          <QueryInput
-            v-decorator="[
-              'queryNumber',
-              {
-                initialValue: queryNumber,
-              },
-            ]"
-          />
-        </a-form-item>
-      </a-col> -->
-      <a-col span="4">
+    <a-row :gutter="24">
+      <a-col :xs="6" :xl="4">
         <a-form-item label="状态">
           <a-select
             allow-clear
@@ -48,12 +26,12 @@
           </a-select>
         </a-form-item>
       </a-col>
-      <a-col span="8">
+      <a-col :xs="10" :xl="6">
         <a-form-item label="注册时间">
           <a-range-picker style="width: 100%;" v-decorator="['date']" />
         </a-form-item>
       </a-col>
-      <a-col span="4">
+      <a-col :xs="6" :xl="5">
         <a-form-item>
           <SearchButton @search="search" @reset="reset" />
         </a-form-item>
@@ -63,42 +41,17 @@
 </template>
 
 <script>
-// import QueryInput from './QueryInput';
 import searchForm from 'mixins/searchForm';
 
 export default {
   name: 'SearchForm',
   mixins: [searchForm],
-  // components: {
-  //   QueryInput,
-  // },
-  // computed: {
-  //   queryNumber() {
-  //     const { queryNumberMin = '', queryNumberMax = '' } = this.$route.query;
-  //     return {
-  //       queryNumberMin,
-  //       queryNumberMax,
-  //     };
-  //   },
-  // },
   methods: {
     setFormInitialValues() {
-      const {
-        endTime,
-        starTime,
-        userStatus,
-        companyName,
-        // queryNumberMin,
-        // queryNumberMax,
-      } = this.$route.query;
-
+      const { endTime, starTime, userStatus, companyName } = this.$route.query;
       this.searchForm.setFieldsValue({
         userStatus,
         companyName,
-        // queryNumber: {
-        //   queryNumberMin,
-        //   queryNumberMax,
-        // },
         date: this.formatDateToMoment({ endTime, starTime }),
       });
     },
