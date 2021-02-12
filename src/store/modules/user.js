@@ -6,10 +6,10 @@ import router, { resetRouter, adminRoutes, operatorRoutes } from '@/router';
 export default {
   namespaced: true,
   state: {
-    // 用户信息
-    userInfo: {},
     // 用户菜单
     routes: [],
+    // 用户信息
+    userInfo: {},
   },
   mutations: {
     // 处理用户信息
