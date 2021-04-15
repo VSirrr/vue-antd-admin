@@ -79,13 +79,13 @@ module.exports = {
     config.plugins.delete('prefetch');
     // 移除模板中的无用空格
     config.module
-    .rule('vue')
-    .use('vue-loader')
-    .loader('vue-loader')
-    .tap(options => {
-      options.compilerOptions.preserveWhitespace = false;
-      return options;
-    });
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .tap(options => {
+        options.compilerOptions.preserveWhitespace = false;
+        return options;
+      });
     // bundle analyzer
     if (ANALYZE) {
       config
