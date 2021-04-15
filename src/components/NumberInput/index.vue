@@ -16,7 +16,10 @@ import { formatInputOnlyNumber } from 'utils/format';
 export default {
   name: 'NumberInput',
   props: {
-    value: String,
+    value: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     change(e) {

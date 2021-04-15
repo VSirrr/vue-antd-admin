@@ -41,7 +41,7 @@ export default {
 <style lang="less" scoped>
 .breadcrumb {
   padding: @padding-md @padding-lg;
-  border-bottom: 1px solid #e8e8e8;
   background: @white;
+  border-bottom: 1px solid #e8e8e8;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="descriptions">
-    <h4 class="descriptions-title" v-if="title">
+    <h4 v-if="title" class="descriptions-title">
       {{ title }}
-      <span class="descriptions-title-extra" v-if="$slots.extra">
+      <span v-if="$slots.extra" class="descriptions-title-extra">
         <slot name="extra" />
       </span>
     </h4>
@@ -40,14 +40,16 @@ export default {
 .descriptions {
   &-title {
     margin-bottom: 12px;
-    font-weight: 700;
     font-size: 14px;
+    font-weight: 700;
     line-height: 32px;
+
     &-extra {
       float: right;
       font-weight: 400;
     }
   }
+
   /deep/ .ant-form-item {
     margin-bottom: 0;
     color: #969799;

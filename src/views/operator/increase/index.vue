@@ -11,35 +11,35 @@
       </a-form-item>
       <a-form-item required label="姓名">
         <a-input
+          v-decorator="userName"
           allow-clear
-          :maxLength="50"
+          :max-length="50"
           autocomplete="off"
           style="width: 380px;"
-          v-decorator="userName"
           placeholder="请输入姓名"
         />
       </a-form-item>
       <a-form-item required label="手机号">
-        <PhoneInput style="width: 380px;" v-decorator="phone" />
+        <PhoneInput v-decorator="phone" style="width: 380px;" />
         <span class="tip">（默认手机号为登录账号）</span>
       </a-form-item>
       <a-form-item required label="密码">
         <a-input
+          v-decorator="password"
           allow-clear
           type="password"
-          :maxLength="30"
+          :max-length="30"
           autocomplete="off"
           style="width: 380px;"
-          v-decorator="password"
           placeholder="6~30位数字、字母、符号的组合"
         />
       </a-form-item>
       <a-form-item required label="角色">
         <a-select
+          v-decorator="userType"
           allow-clear
           placeholder="请选择"
           style="width: 380px;"
-          v-decorator="userType"
         >
           <a-select-option :value="2">
             操作员
@@ -68,35 +68,6 @@ export default {
   name: 'OperatorIncrease',
   components: {
     PhoneInput,
-  },
-  methods: {
-    submit() {
-      this.form.validateFields(async (errors, values) => {
-        if (errors) return;
-        try {
-          await registerOperator({
-            ...values,
-            password: md5(values.password),
-          });
-          this.$message.success('操作成功');
-          this.$router.push('/operator');
-        } catch (error) {
-          console.error(error);
-          const { retcode, msg } = error;
-          if (retcode === 10001) {
-            this.form.setFields({
-              phone: {
-                value: values.phone,
-                errors: [new Error(msg)],
-              },
-            });
-          }
-        }
-      });
-    },
-    back() {
-      this.$router.back();
-    },
   },
   beforeCreate() {
     this.form = this.$form.createForm(this);
@@ -154,6 +125,35 @@ export default {
         initialValue: 2,
       },
     ];
+  },
+  methods: {
+    submit() {
+      this.form.validateFields(async (errors, values) => {
+        if (errors) return;
+        try {
+          await registerOperator({
+            ...values,
+            password: md5(values.password),
+          });
+          this.$message.success('操作成功');
+          this.$router.push('/operator');
+        } catch (error) {
+          console.error(error);
+          const { retcode, msg } = error;
+          if (retcode === 10001) {
+            this.form.setFields({
+              phone: {
+                value: values.phone,
+                errors: [new Error(msg)],
+              },
+            });
+          }
+        }
+      });
+    },
+    back() {
+      this.$router.back();
+    },
   },
 };
 </script>

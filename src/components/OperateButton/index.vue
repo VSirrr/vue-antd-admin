@@ -32,6 +32,7 @@ export default {
   &:not(:last-child) {
     margin-right: 18px;
   }
+
   &.color-red {
     color: @red-color;
   }

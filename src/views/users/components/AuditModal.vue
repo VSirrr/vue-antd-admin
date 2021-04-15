@@ -2,23 +2,23 @@
   <a-modal
     :closable="false"
     :visible="visible"
-    :maskClosable="false"
-    :afterClose="afterClose"
-    :confirmLoading="submitting"
+    :mask-closable="false"
+    :after-close="afterClose"
+    :confirm-loading="submitting"
     @cancel="close"
     @ok="submit"
   >
     <h4 class="title">
-      <a-icon theme="filled" style="color: #1890ff" type="info-circle" />
+      <a-icon theme="filled" style="color: #1890ff;" type="info-circle" />
       审核不通过
     </h4>
     <a-form :form="form">
       <a-form-item>
         <a-textarea
-          :maxLength="300"
           v-decorator="auditRemark"
+          :max-length="300"
           placeholder="请输入审核不通过原因"
-          :autoSize="{ minRows: 5, maxRows: 5 }"
+          :auto-size="{ minRows: 5, maxRows: 5 }"
         />
       </a-form-item>
     </a-form>
@@ -37,6 +37,21 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  beforeCreate() {
+    this.auditRemark = [
+      'auditRemark',
+      {
+        validateTrigger: 'blur',
+        rules: [
+          {
+            required: true,
+            whitespace: true,
+            message: '请输入审核不通过原因',
+          },
+        ],
+      },
+    ];
   },
   methods: {
     submit() {
@@ -62,38 +77,26 @@ export default {
       });
     },
   },
-  beforeCreate() {
-    this.auditRemark = [
-      'auditRemark',
-      {
-        validateTrigger: 'blur',
-        rules: [
-          {
-            required: true,
-            whitespace: true,
-            message: '请输入审核不通过原因',
-          },
-        ],
-      },
-    ];
-  },
 };
 </script>
 
 <style lang="less" scoped>
 .title {
-  font-weight: 500;
   font-size: 16px;
+  font-weight: 500;
   line-height: 1.4;
+
   .anticon {
     float: left;
     margin-right: 16px;
     font-size: 22px;
   }
 }
+
 /deep/ .ant-form {
   margin: 24px 0 0 38px;
 }
+
 /deep/ .ant-modal-footer {
   border-top: 0;
 }

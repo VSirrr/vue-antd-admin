@@ -4,9 +4,9 @@
     v-bind="$attrs"
     :accept="accept"
     :multiple="false"
-    :listType="listType"
-    :fileList="fileList"
-    :beforeUpload="beforeUpload"
+    :list-type="listType"
+    :file-list="fileList"
+    :before-upload="beforeUpload"
     @change="change"
     @preview="preview"
   >
@@ -35,7 +35,10 @@ export default {
     event: 'change',
   },
   props: {
-    fileList: Array,
+    fileList: {
+      type: Array,
+      default: () => [],
+    },
     accept: {
       type: String,
       default: '.pdf,.jpg,.png',

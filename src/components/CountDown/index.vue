@@ -67,6 +67,9 @@ export default {
       return '获取验证码';
     },
   },
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
   methods: {
     run() {
       this.$message.success('验证码已发送');
@@ -85,19 +88,16 @@ export default {
       this.$emit('click', this.run);
     },
   },
-  beforeDestroy() {
-    clearInterval(this.timer);
-  },
 };
 </script>
 
 <style lang="less" scoped>
 .count-down {
-  margin-left: 14px;
-  padding: 0 10px;
   width: 92px;
-  vertical-align: 0.5px;
+  padding: 0 10px;
+  margin-left: 14px;
   overflow: hidden;
+  vertical-align: 0.5px;
   transition-duration: 0s;
 }
 </style>

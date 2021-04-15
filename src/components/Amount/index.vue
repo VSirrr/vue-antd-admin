@@ -16,6 +16,38 @@ import numberCapital from './number-capital';
 
 export default {
   name: 'Amount',
+  filters: {
+    doPrecision(value, precision, isRoundUp) {
+      const exponentialForm = Number(`${value}e${precision}`);
+      const rounded = isRoundUp
+        ? Math.round(exponentialForm)
+        : Math.floor(exponentialForm);
+      return Number(`${rounded}e-${precision}`).toFixed(precision);
+    },
+    doFormat(value, hasSeparator, separator) {
+      if (!hasSeparator) {
+        return value;
+      }
+      const numberParts = value.split('.');
+      let integerValue = numberParts[0];
+      const decimalValue = numberParts[1] || '';
+      let sign = '';
+      if (integerValue.startsWith('-')) {
+        integerValue = integerValue.substring(1);
+        sign = '-';
+      }
+      const formateValue = integerValue.replace(
+        /(\d)(?=(\d{3})+$)/g,
+        `$1${separator}`,
+      );
+      return decimalValue
+        ? `${sign}${formateValue}.${decimalValue}`
+        : `${sign}${formateValue}`;
+    },
+    doCapital(value) {
+      return numberCapital(value);
+    },
+  },
   props: {
     value: {
       type: Number,
@@ -50,38 +82,6 @@ export default {
   computed: {
     legalPrecision() {
       return this.precision > 0 ? this.precision : 0;
-    },
-  },
-  filters: {
-    doPrecision(value, precision, isRoundUp) {
-      const exponentialForm = Number(`${value}e${precision}`);
-      const rounded = isRoundUp
-        ? Math.round(exponentialForm)
-        : Math.floor(exponentialForm);
-      return Number(`${rounded}e-${precision}`).toFixed(precision);
-    },
-    doFormat(value, hasSeparator, separator) {
-      if (!hasSeparator) {
-        return value;
-      }
-      const numberParts = value.split('.');
-      let integerValue = numberParts[0];
-      const decimalValue = numberParts[1] || '';
-      let sign = '';
-      if (integerValue.startsWith('-')) {
-        integerValue = integerValue.substring(1);
-        sign = '-';
-      }
-      const formateValue = integerValue.replace(
-        /(\d)(?=(\d{3})+$)/g,
-        `$1${separator}`,
-      );
-      return decimalValue
-        ? `${sign}${formateValue}.${decimalValue}`
-        : `${sign}${formateValue}`;
-    },
-    doCapital(value) {
-      return numberCapital(value);
     },
   },
 };

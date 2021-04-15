@@ -13,7 +13,7 @@
         {{ userName }}
       </a-form-item>
       <a-form-item required label="手机号">
-        <PhoneInput style="width: 280px" v-decorator="phone" />
+        <PhoneInput v-decorator="phone" style="width: 280px;" />
         <span class="tips">（默认手机号为登录账号）</span>
       </a-form-item>
       <a-form-item label="角色">
@@ -41,6 +41,28 @@ export default {
   },
   computed: {
     ...mapGetters(['userPhone', 'userName', 'userType']),
+  },
+  beforeCreate() {
+    this.form = this.$form.createForm(this);
+  },
+  created() {
+    this.phone = [
+      'phone',
+      {
+        initialValue: this.userPhone,
+        validateTrigger: 'blur',
+        rules: [
+          {
+            required: true,
+            message: '请输入手机号',
+          },
+          {
+            pattern: REG_PHONE,
+            message: '请输入正确的联系人手机号',
+          },
+        ],
+      },
+    ];
   },
   methods: {
     ...mapMutations('user', ['clearUserInfo']),
@@ -99,28 +121,6 @@ export default {
         });
       }
     },
-  },
-  beforeCreate() {
-    this.form = this.$form.createForm(this);
-  },
-  created() {
-    this.phone = [
-      'phone',
-      {
-        initialValue: this.userPhone,
-        validateTrigger: 'blur',
-        rules: [
-          {
-            required: true,
-            message: '请输入手机号',
-          },
-          {
-            pattern: REG_PHONE,
-            message: '请输入正确的联系人手机号',
-          },
-        ],
-      },
-    ];
   },
 };
 </script>

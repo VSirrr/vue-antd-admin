@@ -3,8 +3,8 @@
     <a-steps class="steps-nav" :current="current">
       <a-step
         v-for="(item, index) in items"
-        :title="item"
         :key="index"
+        :title="item"
         disabled
       />
     </a-steps>
@@ -31,8 +31,9 @@ export default {
 
 <style lang="less" scoped>
 .steps {
-  margin: 60px auto;
   max-width: 900px;
+  margin: 60px auto;
+
   &-nav {
     margin-bottom: 100px;
   }

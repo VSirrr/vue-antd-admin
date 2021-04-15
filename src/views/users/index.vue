@@ -4,10 +4,10 @@
     <RouteTable
       :loading="loading"
       :columns="columns"
-      :totalSize="totalSize"
-      :totalPage="totalPage"
-      :dataSource="tableData"
-      :rowClassName="rowClassName"
+      :total-size="totalSize"
+      :total-page="totalPage"
+      :data-source="tableData"
+      :row-class-name="rowClassName"
       @change="getData"
     >
       <!-- 查询次数 -->
@@ -38,13 +38,13 @@
           <OperateButton @click="auditPass(id, companyId)">
             审核通过
           </OperateButton>
-          <OperateButton colorRed @click="auditNotPass(id, companyId)">
+          <OperateButton color-red @click="auditNotPass(id, companyId)">
             审核不通过
           </OperateButton>
         </template>
         <!-- 正常 -->
         <template v-if="userStatus === 2">
-          <OperateButton colorRed @click="disable(id)">
+          <OperateButton color-red @click="disable(id)">
             停用
           </OperateButton>
         </template>
@@ -74,7 +74,6 @@ import { queryUserList, userEnable, userDisable } from 'api/operator';
 
 export default {
   name: 'Users',
-  mixins: [searchTable],
   components: {
     Amount,
     SearchForm,
@@ -82,6 +81,7 @@ export default {
     OperateButton,
     AuditModal: () => import('./components/AuditModal'),
   },
+  mixins: [searchTable],
   data() {
     return {
       auditModalOptions: {},

@@ -4,9 +4,9 @@
       <a-col :xs="6" :xl="4">
         <a-form-item label="状态">
           <a-select
+            v-decorator="['userStatus']"
             allow-clear
             placeholder="请选择"
-            v-decorator="['userStatus']"
           >
             <a-select-option value="1">
               待审核
@@ -28,7 +28,7 @@
       </a-col>
       <a-col :xs="10" :xl="6">
         <a-form-item label="注册时间">
-          <a-range-picker style="width: 100%;" v-decorator="['date']" />
+          <a-range-picker v-decorator="['date']" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :xs="6" :xl="5">

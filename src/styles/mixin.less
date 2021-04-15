@@ -10,6 +10,7 @@
 
 .link-color-inherit() {
   color: inherit;
+
   &:hover {
     color: inherit;
   }
@@ -51,14 +52,16 @@
 
 .clearfix() {
   zoom: 1;
+
   &::before,
   &::after {
     display: table;
     content: ' ';
   }
+
   &::after {
-    clear: both;
     height: 0;
+    clear: both;
     font-size: 0;
     visibility: hidden;
   }

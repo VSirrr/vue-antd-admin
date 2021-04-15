@@ -4,10 +4,10 @@
       <a-col span="4">
         <a-form-item label="姓名">
           <a-input
-            allow-clear
-            :maxLength="50"
-            placeholder="支持模糊查询"
             v-decorator="['userName']"
+            allow-clear
+            :max-length="50"
+            placeholder="支持模糊查询"
           />
         </a-form-item>
       </a-col>
@@ -19,9 +19,9 @@
       <a-col span="4">
         <a-form-item label="状态">
           <a-select
+            v-decorator="['userStatus']"
             allow-clear
             placeholder="请选择"
-            v-decorator="['userStatus']"
           >
             <a-select-option value="2">
               正常
@@ -37,7 +37,7 @@
       </a-col>
       <a-col span="6">
         <a-form-item label="创建时间">
-          <a-range-picker style="width: 100%;" v-decorator="['date']" />
+          <a-range-picker v-decorator="['date']" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col span="5">
@@ -60,10 +60,10 @@ import PhoneInput from 'components/PhoneInput';
 
 export default {
   name: 'SearchForm',
-  mixins: [searchForm],
   components: {
     PhoneInput,
   },
+  mixins: [searchForm],
   methods: {
     setFormInitialValues() {
       const {

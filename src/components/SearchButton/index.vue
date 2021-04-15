@@ -42,6 +42,7 @@ export default {
   & > button:not(:last-child) {
     margin-right: 10px;
   }
+
   & > a {
     display: inline-block;
     width: 46px;

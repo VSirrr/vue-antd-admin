@@ -4,14 +4,14 @@
     <Table
       size="small"
       class="table"
-      :pageNo="pageNo"
+      :page-no="pageNo"
       :columns="columns"
       :loading="loading"
       :scroll="{ y: 260 }"
-      :pageSize="pageSize"
-      :totalSize="totalSize"
-      :totalPage="totalPage"
-      :dataSource="tableData"
+      :page-size="pageSize"
+      :total-size="totalSize"
+      :total-page="totalPage"
+      :data-source="tableData"
       @change="change"
     >
       <template #operate="{ userName, id }">
@@ -32,10 +32,10 @@ import { changeAdmin, findChooseOperatorList } from 'api/operator';
 
 export default {
   name: 'ChangeAdminModal',
-  mixins: [modal],
   components: {
     Table,
   },
+  mixins: [modal],
   data() {
     return {
       columns: [
@@ -64,6 +64,13 @@ export default {
       loading: false,
     };
   },
+  watch: {
+    visible(val) {
+      if (val) {
+        this.change();
+      }
+    },
+  },
   methods: {
     ...mapMutations('user', ['clearUserInfo']),
     async change(pagination = {}) {
@@ -80,7 +87,7 @@ export default {
         this.totalSize = totalSize;
         this.totalPage = totalPage;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -101,13 +108,6 @@ export default {
       });
     },
   },
-  watch: {
-    visible(val) {
-      if (val) {
-        this.change();
-      }
-    },
-  },
 };
 </script>
 
@@ -117,6 +117,7 @@ export default {
 .tip {
   color: @text-color-secondary;
 }
+
 .table {
   .border-base();
 }

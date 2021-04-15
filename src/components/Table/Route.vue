@@ -31,6 +31,16 @@ export default {
       };
     },
   },
+  created() {
+    // 监听路由变化
+    this.unwatch = this.$watch('$route', () => {
+      this.$emit('change');
+    });
+  },
+  beforeDestroy() {
+    // 解除监听
+    this.unwatch();
+  },
   methods: {
     change(pagination, filters, sorter) {
       const { path, query } = this.$route;
@@ -53,16 +63,6 @@ export default {
         },
       });
     },
-  },
-  created() {
-    // 监听路由变化
-    this.unwatch = this.$watch('$route', () => {
-      this.$emit('change');
-    });
-  },
-  beforeDestroy() {
-    // 解除监听
-    this.unwatch();
   },
 };
 </script>

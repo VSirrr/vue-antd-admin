@@ -17,11 +17,11 @@
       <!-- 菜单 -->
       <a-menu
         mode="inline"
-        :openKeys.sync="openKeys"
-        :selectedKeys="selectedKeys"
+        :open-keys.sync="openKeys"
+        :selected-keys="selectedKeys"
         @openChange="openChange"
       >
-        <menu-item v-for="item in menus" :route="item" :key="item.path" />
+        <menu-item v-for="item in menus" :key="item.path" :route="item" />
       </a-menu>
     </a-layout-sider>
     <!-- 右侧 -->
@@ -78,6 +78,29 @@ export default {
       return routes;
     },
   },
+  watch: {
+    $route: {
+      handler(route) {
+        const { matched } = route;
+        const path = matched.map(item => item.path);
+        this.selectedKeys = path;
+        this.openKeys = path;
+        this.cacheOpenKeys = path;
+      },
+      immediate: true,
+    },
+    collapsed: {
+      handler(val) {
+        if (val) {
+          this.cacheOpenKeys = this.openKeys;
+          this.openKeys = [];
+        } else {
+          this.openKeys = this.cacheOpenKeys;
+        }
+      },
+      immediate: true,
+    },
+  },
   methods: {
     ...mapActions('user', ['logout']),
     openChange(openKeys) {
@@ -102,85 +125,71 @@ export default {
       });
     },
   },
-  watch: {
-    $route: {
-      handler(route) {
-        const { matched } = route;
-        const path = matched.map(item => item.path);
-        this.selectedKeys = path;
-        this.openKeys = path;
-        this.cacheOpenKeys = path;
-      },
-      immediate: true,
-    },
-    collapsed: {
-      handler(val) {
-        if (val) {
-          this.cacheOpenKeys = this.openKeys;
-          this.openKeys = [];
-        } else {
-          this.openKeys = this.cacheOpenKeys;
-        }
-      },
-      immediate: true,
-    },
-  },
 };
 </script>
 
 <style lang="less" scoped>
 .basic-layout {
   min-height: 100%;
+
   &-sider {
     position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
+    left: 0;
     z-index: 10;
     overflow-x: hidden;
     overflow-y: auto;
+
     .logo {
-      padding: @padding-sm @padding-lg;
       height: @layout-header-height;
-      line-height: @layout-header-height - 2 * @padding-sm;
-      border-bottom: 1px solid #e8e8e8;
+      padding: @padding-sm @padding-lg;
+      overflow: hidden;
       font-size: 20px;
       font-weight: 700;
-      overflow: hidden;
+      line-height: @layout-header-height - 2 * @padding-sm;
+      border-bottom: 1px solid #e8e8e8;
+
       img {
         height: 100%;
       }
     }
+
     /deep/ .ant-menu {
       border-right: 0 !important;
     }
   }
+
   &-main {
     transition: all 0.2s;
+
     &-header {
       position: fixed;
       top: 0;
       right: 0;
       z-index: 9;
-      transition: all 0.2s;
       border-left: 1px solid #e8e8e8;
+      transition: all 0.2s;
+
       /deep/ .ant-layout-header {
         padding: 0 @padding-lg;
-        background: @white;
         text-align: right;
+        background: @white;
         border-bottom: 1px solid #e8e8e8;
       }
+
       .logout {
         margin-left: @padding-lg;
-        color: #ccc;
         font-size: 20px;
-        cursor: pointer;
+        color: #ccc;
         vertical-align: -5px;
+        cursor: pointer;
       }
     }
+
     &-content {
-      margin-top: 119px;
       padding: @padding-lg;
+      margin-top: 119px;
     }
   }
 }

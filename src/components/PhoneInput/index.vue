@@ -19,7 +19,10 @@ import { formatInputOnlyNumber } from 'utils/format';
 export default {
   name: 'PhoneInput',
   props: {
-    value: String,
+    value: {
+      type: String,
+      default: '',
+    },
     size: {
       type: String,
       default: 'default',

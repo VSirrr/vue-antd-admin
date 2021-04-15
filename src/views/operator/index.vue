@@ -4,10 +4,10 @@
     <RouteTable
       :loading="loading"
       :columns="columns"
-      :totalSize="totalSize"
-      :totalPage="totalPage"
-      :dataSource="tableData"
-      :rowClassName="rowClassName"
+      :total-size="totalSize"
+      :total-page="totalPage"
+      :data-source="tableData"
+      :row-class-name="rowClassName"
       @change="getData"
     >
       <!-- 状态 -->
@@ -26,12 +26,12 @@
           <OperateButton @click="resetPwd(userName, id)">
             重置密码
           </OperateButton>
-          <OperateButton colorRed @click="disable(id)">停用</OperateButton>
-          <OperateButton colorRed @click="cancel(id)">注销</OperateButton>
+          <OperateButton color-red @click="disable(id)">停用</OperateButton>
+          <OperateButton color-red @click="cancel(id)">注销</OperateButton>
         </template>
         <template v-if="userStatus === 3">
           <OperateButton @click="enable(id)">启用</OperateButton>
-          <OperateButton colorRed @click="cancel(id)">注销</OperateButton>
+          <OperateButton color-red @click="cancel(id)">注销</OperateButton>
         </template>
         <template v-if="userStatus === 5">
           <OperateButton @click="cancelRecord(id)">注销记录</OperateButton>
@@ -59,13 +59,13 @@ import {
 
 export default {
   name: 'Operator',
-  mixins: [searchTable],
   components: {
     RouteTable,
     SearchForm,
     OperateButton,
     ChangeAdminModal: () => import('./components/ChangeAdminModal'),
   },
+  mixins: [searchTable],
   data() {
     return {
       visible: false,
@@ -264,6 +264,7 @@ export default {
   &:not(:last-child) {
     margin-right: @padding-md;
   }
+
   &.red {
     color: @red-color;
   }

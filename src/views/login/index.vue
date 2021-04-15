@@ -9,14 +9,14 @@
       </div>
       <a-form :form="form">
         <a-form-item>
-          <PhoneInput hasIcon size="large" v-decorator="phone" />
+          <PhoneInput v-decorator="phone" has-icon size="large" />
         </a-form-item>
         <a-form-item>
           <a-input-password
+            v-decorator="password"
             size="large"
             allow-clear
             autocomplete="off"
-            v-decorator="password"
             placeholder="请输入密码"
           >
             <a-icon slot="prefix" type="lock" />
@@ -57,56 +57,6 @@ export default {
     return {
       submitting: false,
     };
-  },
-  methods: {
-    ...mapActions('user', ['login']),
-    submit() {
-      this.form.validateFields(async (errors, values) => {
-        if (errors) return;
-        try {
-          this.submitting = true;
-          await this.login(values);
-          this.$router.replace('/');
-        } catch (error) {
-          console.error(error);
-          const { retcode, msg } = error;
-          const { phone, password, pictureCode } = values;
-          // 密码错误或者验证码失效，重新获取验证码
-          if (retcode === 10048 || retcode === 10054) {
-            this.$refs.pictureCodeInput.refresh();
-          }
-          if (retcode === 10000) {
-            this.form.setFields({
-              phone: {
-                value: phone,
-                errors: [new Error(msg)],
-              },
-            });
-          } else if (retcode === 10048) {
-            this.form.setFields({
-              password: {
-                value: password,
-                errors: [new Error(msg)],
-              },
-            });
-          } else if (retcode === 10053 || retcode === 10054) {
-            this.form.setFields({
-              pictureCode: {
-                value: pictureCode,
-                errors: [new Error(msg)],
-              },
-            });
-          } else if (retcode === 20001) {
-            this.$warning({
-              title: '提示',
-              content: msg,
-            });
-          }
-        } finally {
-          this.submitting = false;
-        }
-      });
-    },
   },
   beforeCreate() {
     this.form = this.$form.createForm(this);
@@ -159,6 +109,56 @@ export default {
       },
     ];
   },
+  methods: {
+    ...mapActions('user', ['login']),
+    submit() {
+      this.form.validateFields(async (errors, values) => {
+        if (errors) return;
+        try {
+          this.submitting = true;
+          await this.login(values);
+          this.$router.replace('/');
+        } catch (error) {
+          console.error(error);
+          const { retcode, msg } = error;
+          const { phone, password, pictureCode } = values;
+          // 密码错误或者验证码失效，重新获取验证码
+          if (retcode === 10048 || retcode === 10054) {
+            this.$refs.pictureCodeInput.refresh();
+          }
+          if (retcode === 10000) {
+            this.form.setFields({
+              phone: {
+                value: phone,
+                errors: [new Error(msg)],
+              },
+            });
+          } else if (retcode === 10048) {
+            this.form.setFields({
+              password: {
+                value: password,
+                errors: [new Error(msg)],
+              },
+            });
+          } else if (retcode === 10053 || retcode === 10054) {
+            this.form.setFields({
+              pictureCode: {
+                value: pictureCode,
+                errors: [new Error(msg)],
+              },
+            });
+          } else if (retcode === 20001) {
+            this.$warning({
+              title: '提示',
+              content: msg,
+            });
+          }
+        } finally {
+          this.submitting = false;
+        }
+      });
+    },
+  },
 };
 </script>
 
@@ -168,23 +168,28 @@ export default {
 
 .login {
   height: 100%;
+
   &-header {
     .border-side(bottom);
+
+    overflow: hidden;
     font-size: 20px;
     font-weight: 700;
     color: @main-color;
-    background-color: #fff;
     text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: #fff;
   }
+
   &-content {
-    margin: 150px auto;
     width: 354px;
+    margin: 150px auto;
+
     &-logo {
       margin-bottom: 40px;
       text-align: center;
+
       & > img {
         height: 60px;
       }
