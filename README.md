@@ -29,3 +29,7 @@ npm run analyze
 ```shell
 npm run lint
 ```
+
+### 代码提交规范
+
+![代码提交规范](./commitrules.png)
