@@ -36,10 +36,7 @@ export default {
     props.pagination = $_pagination;
 
     return (
-      <a-table
-        {...{ props, scopedSlots: { ...$scopedSlots } }}
-        onChange={change}
-      >
+      <a-table props={props} scopedSlots={$scopedSlots} onChange={change}>
         {Object.keys($slots).map(name => (
           <template slot={name}>{$slots[name]}</template>
         ))}
