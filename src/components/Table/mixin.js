@@ -38,7 +38,8 @@ export default {
     return (
       <a-table
         {...{ props, scopedSlots: { ...$scopedSlots } }}
-        onChange={change}>
+        onChange={change}
+      >
         {Object.keys($slots).map(name => (
           <template slot={name}>{$slots[name]}</template>
         ))}
