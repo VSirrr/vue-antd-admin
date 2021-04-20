@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import 'styles/variable';
+@import 'styles/color';
 
 .operate-button {
   &:not(:last-child) {
@@ -34,7 +34,7 @@ export default {
   }
 
   &.color-red {
-    color: @red-color;
+    color: @red;
   }
 }
 </style>
