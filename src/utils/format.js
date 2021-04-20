@@ -17,12 +17,12 @@ export const formatInputMoney = (val = '') => {
 
   if (val.indexOf('.') > -1) {
     const strs = val.split('.');
-    let preffix = strs[0];
+    let prefix = strs[0];
     const suffix = strs[1];
-    if (preffix.length > 9) {
-      preffix = preffix.slice(0, 9);
+    if (prefix.length > 9) {
+      prefix = prefix.slice(0, 9);
     }
-    val = preffix + '.' + suffix;
+    val = prefix + '.' + suffix;
   } else {
     if (val.length > 9) {
       val = val.slice(0, 9);
