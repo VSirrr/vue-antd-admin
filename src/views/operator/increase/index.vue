@@ -162,6 +162,6 @@ export default {
 @import 'styles/color';
 
 .tip {
-  color: @light-gray;
+  color: @light-grey;
 }
 </style>
