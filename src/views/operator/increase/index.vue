@@ -20,7 +20,13 @@
         />
       </a-form-item>
       <a-form-item required label="手机号">
-        <PhoneInput v-decorator="phone" style="width: 380px;" />
+        <PhoneInput
+          v-decorator="phone"
+          allow-clear
+          type="phone"
+          style="width: 380px;"
+          placeholder="请输入手机号"
+        />
         <span class="tip">（默认手机号为登录账号）</span>
       </a-form-item>
       <a-form-item required label="密码">
@@ -60,7 +66,7 @@
 
 <script>
 import md5 from 'md5';
-import PhoneInput from 'components/PhoneInput';
+import PhoneInput from 'components/Input';
 import { registerOperator } from 'api/operator';
 import { REG_NAME, REG_PHONE, REG_PASSWORD } from 'utils/reg';
 
@@ -91,6 +97,7 @@ export default {
       'phone',
       {
         validateTrigger: 'blur',
+        getValueFromEvent: value => value,
         rules: [
           {
             required: true,

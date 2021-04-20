@@ -13,7 +13,13 @@
         {{ userName }}
       </a-form-item>
       <a-form-item required label="手机号">
-        <PhoneInput v-decorator="phone" style="width: 280px;" />
+        <PhoneInput
+          v-decorator="phone"
+          allow-clear
+          type="phone"
+          style="width: 280px;"
+          placeholder="请输入手机号"
+        />
         <span class="tips">（默认手机号为登录账号）</span>
       </a-form-item>
       <a-form-item label="角色">
@@ -30,7 +36,7 @@
 
 <script>
 import { REG_PHONE } from 'utils/reg';
-import PhoneInput from 'components/PhoneInput';
+import PhoneInput from 'components/Input';
 import { mapGetters, mapMutations } from 'vuex';
 import { validModifyOperatorPhone, modifyOperatorPhone } from 'api/operator';
 
@@ -51,6 +57,7 @@ export default {
       {
         initialValue: this.userPhone,
         validateTrigger: 'blur',
+        getValueFromEvent: value => value,
         rules: [
           {
             required: true,

@@ -9,7 +9,14 @@
       </div>
       <a-form :form="form">
         <a-form-item>
-          <PhoneInput v-decorator="phone" has-icon size="large" />
+          <PhoneInput
+            v-decorator="phone"
+            size="large"
+            type="phone"
+            placeholder="请输入手机号"
+          >
+            <a-icon slot="prefix" type="mobile" />
+          </PhoneInput>
         </a-form-item>
         <a-form-item>
           <a-input-password
@@ -23,7 +30,7 @@
           </a-input-password>
         </a-form-item>
         <a-form-item>
-          <PictureCodeInput ref="pictureCodeInput" v-decorator="pictureCode" />
+          <PictureCodeInput ref="pictureCode" v-decorator="pictureCode" />
         </a-form-item>
         <a-form-item>
           <a-button
@@ -43,8 +50,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import PhoneInput from 'components/PhoneInput';
-import PictureCodeInput from 'components/PictureCodeInput';
+import PhoneInput from 'components/Input';
+import PictureCodeInput from 'components/Input/PictureCode';
 import { REG_PASSWORD, REG_PIC_CODE, REG_PHONE } from 'utils/reg';
 
 export default {
@@ -64,6 +71,7 @@ export default {
       'phone',
       {
         validateTrigger: 'blur',
+        getValueFromEvent: value => value,
         rules: [
           {
             required: true,
@@ -124,7 +132,7 @@ export default {
           const { phone, password, pictureCode } = values;
           // 密码错误或者验证码失效，重新获取验证码
           if (retcode === 10048 || retcode === 10054) {
-            this.$refs.pictureCodeInput.refresh();
+            this.$refs.pictureCode.refresh();
           }
           if (retcode === 10000) {
             this.form.setFields({

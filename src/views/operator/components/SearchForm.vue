@@ -13,7 +13,17 @@
       </a-col>
       <a-col span="5">
         <a-form-item label="手机号码">
-          <PhoneInput v-decorator="['phone']" placeholder="支持模糊查询" />
+          <PhoneInput
+            v-decorator="[
+              'phone',
+              {
+                getValueFromEvent: value => value,
+              },
+            ]"
+            allow-clear
+            type="phone"
+            placeholder="支持模糊查询"
+          />
         </a-form-item>
       </a-col>
       <a-col span="4">
@@ -56,7 +66,7 @@
 
 <script>
 import searchForm from 'mixins/searchForm';
-import PhoneInput from 'components/PhoneInput';
+import PhoneInput from 'components/Input';
 
 export default {
   name: 'SearchForm',
