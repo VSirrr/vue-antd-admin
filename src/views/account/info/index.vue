@@ -126,9 +126,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import 'styles/variable';
+@import 'styles/color';
 
 .tips {
-  color: @gray-color;
+  color: @light-grey;
 }
 </style>

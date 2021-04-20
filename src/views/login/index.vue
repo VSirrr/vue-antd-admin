@@ -163,7 +163,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import 'styles/variable';
+@import 'styles/color';
 @import 'styles/mixin';
 
 .login {
@@ -175,7 +175,7 @@ export default {
     overflow: hidden;
     font-size: 20px;
     font-weight: 700;
-    color: @main-color;
+    color: @main;
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
