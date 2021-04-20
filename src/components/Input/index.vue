@@ -66,26 +66,25 @@ export default {
      * @return {string} 返回格式化之后的值
      */
     formatValue(val) {
-      let value;
       /**
-       * 1. 金额
-       * 2. 银行卡号
-       * 3. 数字
+       * 1. 数字
+       * 2. 金额
+       * 3. 银行卡号
        * 4. 手机号
        * 5. 其他
        */
-      if (this.type === 'money') {
-        value = formatInputMoney(val);
-      } else if (this.type === 'bankCard') {
-        value = formatInputBankNumber(val);
-      } else if (this.type === 'digit') {
-        value = formatInputOnlyNumber(val);
-      } else if (this.type === 'phone') {
-        value = formatInputPhoneNumber(val);
-      } else {
-        value = val;
+      switch (this.type) {
+        case 'digit':
+          return formatInputOnlyNumber(val);
+        case 'money':
+          return formatInputMoney(val);
+        case 'bankCard':
+          return formatInputBankNumber(val);
+        case 'phone':
+          return formatInputPhoneNumber(val);
+        default:
+          return val;
       }
-      return value;
     },
     /**
      * @description 输入框发生变化，格式化输入的值，并 emit change 事件
