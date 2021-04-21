@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { REG_PHONE } from 'utils/reg';
+import { REG_PHONE } from 'utils/regexp';
 import PhoneInput from 'components/Input';
 import { mapGetters, mapMutations } from 'vuex';
 import { validModifyOperatorPhone, modifyOperatorPhone } from 'api/operator';

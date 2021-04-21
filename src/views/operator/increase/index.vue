@@ -68,7 +68,7 @@
 import md5 from 'md5';
 import PhoneInput from 'components/Input';
 import { registerOperator } from 'api/operator';
-import { REG_NAME, REG_PHONE, REG_PASSWORD } from 'utils/reg';
+import { REG_NAME, REG_PHONE, REG_PASSWORD } from 'utils/regexp';
 
 export default {
   name: 'OperatorIncrease',

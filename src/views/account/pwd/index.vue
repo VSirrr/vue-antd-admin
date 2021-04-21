@@ -35,7 +35,7 @@
 
 <script>
 import md5 from 'md5';
-import { REG_PASSWORD } from 'utils/reg';
+import { REG_PASSWORD } from 'utils/regexp';
 import { modifyOperatorPwd } from 'api/operator';
 
 export default {

@@ -52,7 +52,7 @@
 import { mapActions } from 'vuex';
 import PhoneInput from 'components/Input';
 import PictureCodeInput from 'components/Input/PictureCode';
-import { REG_PASSWORD, REG_PIC_CODE, REG_PHONE } from 'utils/reg';
+import { REG_PASSWORD, REG_PIC_CODE, REG_PHONE } from 'utils/regexp';
 
 export default {
   name: 'Login',

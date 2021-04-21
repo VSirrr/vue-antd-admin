@@ -1,5 +1,5 @@
 import md5 from 'md5';
-import { setToken, removeToken } from 'utils/auth';
+import { setToken, removeToken } from 'utils/token';
 import { login, logout, getOperator } from 'api/operator';
 import router, { resetRouter, adminRoutes, operatorRoutes } from '@/router';
 

@@ -3,7 +3,7 @@ import store from '@/store';
 import router from '@/router';
 import 'nprogress/nprogress.css';
 import NProgress from 'nprogress';
-import { getToken } from 'utils/auth';
+import { getToken } from 'utils/token';
 import { Modal } from 'ant-design-vue';
 
 // NProgress Configuration
