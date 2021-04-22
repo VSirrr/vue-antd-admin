@@ -95,7 +95,7 @@ const components = [
   PageLoading,
 ];
 
-components.map(component => {
+components.forEach(component => {
   Vue.use(component);
 });
 
