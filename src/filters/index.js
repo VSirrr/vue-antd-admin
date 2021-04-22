@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
 
 // 时间格式化
 Vue.filter('moment', (val, format = 'YYYY-MM-DD HH:mm:ss') => {
