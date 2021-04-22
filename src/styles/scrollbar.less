@@ -1,0 +1,24 @@
+@scrollbar-width: 6px;
+
+.border-radius() {
+  border-radius: @scrollbar-width / 2;
+}
+
+::-webkit-scrollbar {
+  width: @scrollbar-width;
+  height: @scrollbar-width;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  .border-radius();
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d3d3d3;
+  .border-radius();
+
+  &:hover {
+    background-color: #cacaca;
+  }
+}
