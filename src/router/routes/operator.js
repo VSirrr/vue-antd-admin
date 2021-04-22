@@ -1,6 +1,7 @@
 import account from './account';
 import redirect from './redirect';
 import BasicLayout from '@/layouts/BasicLayout';
+import BlankLayout from '@/layouts/BlankLayout';
 
 /**
  * @param {string} icon meta 中设置 icon(ant-design-vue 中的 icon 组件类型)，则在菜单中显示图标
@@ -22,6 +23,23 @@ export default [
           icon: 'team',
         },
         component: () => import('views/users'),
+      },
+      {
+        path: '/demo',
+        meta: {
+          title: 'Demo',
+          icon: 'appstore',
+        },
+        component: BlankLayout,
+        children: [
+          {
+            path: '/demo/drag-modal',
+            meta: {
+              title: 'DragModal',
+            },
+            component: () => import('views/demo/drag-modal'),
+          },
+        ],
       },
       account,
     ],
