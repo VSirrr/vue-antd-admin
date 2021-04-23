@@ -1,3 +1,6 @@
+// polyfill
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import Vue from 'vue';
 // ant-design-vue 的所有组件链接地址 https://github.com/vueComponent/ant-design-vue/blob/next/components/index.ts
 import {
@@ -9,7 +12,6 @@ import {
   Checkbox,
   Col,
   DatePicker,
-  Divider,
   Form,
   FormModel,
   Icon,
@@ -40,10 +42,16 @@ import {
   notification,
 } from 'ant-design-vue';
 import PageLoading from 'components/PageLoading';
-// moment locale
+// 设置 moment locale
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
+// 过滤器
+// import './filters';
+// 权限
+import './permission';
+// 全局样式（包含对依赖库中的样式覆盖），放在所有css最后面
+import './global.less';
 
 // 最大显示数, 超过限制时，最早的消息会被自动关闭
 message.config({ maxCount: 1 });
@@ -65,7 +73,6 @@ const components = [
   Checkbox,
   Col,
   DatePicker,
-  Divider,
   Form,
   FormModel,
   Icon,
