@@ -48,6 +48,8 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 // 过滤器
 // import './filters';
+// 自定义指令
+import './directives';
 // 权限
 import './permission';
 // 全局样式（包含对依赖库中的样式覆盖），放在所有css最后面
