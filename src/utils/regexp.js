@@ -18,7 +18,7 @@ export const REG_SPACE = /\s/g;
 export const REG_BANK_NUMBER = /^\d{16,21}$/;
 // 中文名称
 export const REG_NAME = /^(?:[\u4e00-\u9fa5·]{2,30})$/;
-//数字
+// 数字
 export const REG_NUM = /^[0-9]*$/;
 // 图片验证码
 export const REG_PIC_CODE = /[0-9a-zA-Z]{4}/;
