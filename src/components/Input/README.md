@@ -18,11 +18,45 @@
 ## Demo
 
 ```html
-<DigitInput type="digit" /> //1234567890
+<!-- 1. 单独使用 -->
+<DigitInput type="digit" v-model="digit" /> //1234567890
 
-<MoneyInput type="money" /> // 10,000.00
+<MoneyInput type="money" v-model="money" /> // 10,000.00
 
-<PhoneInput type="phone" /> // 133 4444 5555
+<PhoneInput type="phone" v-model="phone" /> // 133 4444 5555
 
-<BankCardInput type="bankCard" /> // 6222 1234 5678 9102 7894
+<BankCardInput type="bankCard" v-model="bankCard" /> // 6222 1234 5678 9102 7894
+
+<!-- 2. 在 a-form 中，配合 v-decorator 使用 -->
+<a-form :form="form">
+  <a-form-item label="手机号">
+    <PhoneInput
+      v-decorator="[
+        'phone',
+        {
+          validateTrigger: 'blur',
+          getValueFromEvent: value => value,
+          rules: [
+            {
+              required: true,
+              message: '请输入手机号',
+            },
+            {
+              pattern: /^1[3-9]\d{9}$/,
+              message: '请输入正确的手机号',
+            },
+          ],
+        },
+      ]"
+      type="phone"
+    />
+  </a-form-item>
+</a-form>
+
+<!-- 3. 在 a-form-model 中，配合 v-model 使用 -->
+<a-form :model="form" :rules="rules">
+  <a-form-model-item label="手机号" prop="phone">
+    <PhoneInput v-model="form.phone" type="phone" />
+  </a-form-model-item>
+</a-form>
 ```
