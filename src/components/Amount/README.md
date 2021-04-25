@@ -1,5 +1,7 @@
 # Amount
 
+> 对金额数字进行格式化，包含保留小数点位数、数字精度取舍是否四舍五入、数字是否有千位分隔符、设置数字千位分隔符、数字是否转换为大写中文等功能。
+
 ## 参数
 
 | 参数 | 说明 | 类型 | 默认值 | 备注 |
@@ -14,6 +16,5 @@
 ## Demo
 
 ```html
-<Amount :value="10000" :precision="2" is-round-up has-separator></Amount> //
-10,000
+<Amount :value="10000" :precision="2" is-round-up has-separator /> // 10,000.00
 ```
