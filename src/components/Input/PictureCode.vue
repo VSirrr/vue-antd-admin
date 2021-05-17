@@ -88,8 +88,8 @@ export default {
 
 a.refresh {
   font-size: 14px;
-  transition: transform 0.3s;
   user-select: none;
+  transition: transform 0.3s;
 
   &[disabled] {
     color: rgba(0, 0, 0, 0.25);
