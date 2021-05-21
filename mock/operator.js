@@ -62,7 +62,7 @@ module.exports = [
   {
     url: '/operator/login',
     type: 'post',
-    response: req => {
+    response: (req, res) => {
       const { password, phone, pictureCode } = req.body;
       console.log(phone);
 
@@ -82,6 +82,7 @@ module.exports = [
 
       // 超级管理员
       if (phone === adminPhone && password === PWD) {
+        res.cookie('token', Random.guid());
         loginUserPhone = adminPhone;
         return {
           retcode: 0,
@@ -91,6 +92,7 @@ module.exports = [
       }
       // 操作员
       if (phone === operatorPhone && password === PWD) {
+        res.cookie('token', Random.guid());
         loginUserPhone = operatorPhone;
         return {
           retcode: 0,
