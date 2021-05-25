@@ -46,6 +46,13 @@ export default [
             },
             component: () => import('views/demo/clipboard'),
           },
+          {
+            path: '/demo/input',
+            meta: {
+              title: 'Input',
+            },
+            component: () => import('views/demo/input'),
+          },
         ],
       },
       account,
