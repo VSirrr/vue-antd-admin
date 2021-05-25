@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      money: '12345678',
+      money: 12345678,
       phone: '13312344321',
       digit: '3452216345673465',
       bankCard: '62223452216345673465',
