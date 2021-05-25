@@ -1,14 +1,17 @@
 <template>
   <div>
-    <a-input v-model="copyData" />
-    <a-button
-      v-clipboard:copy="copyData"
-      v-clipboard:success="copySuccess"
-      v-clipboard:error="copyError"
-      type="default"
-    >
-      复制
-    </a-button>
+    <a-input v-model="copyData">
+      <a-button
+        slot="suffix"
+        v-clipboard:copy="copyData"
+        v-clipboard:success="copySuccess"
+        v-clipboard:error="copyError"
+        style="margin-right: -12px;"
+        type="primary"
+      >
+        复制
+      </a-button>
+    </a-input>
   </div>
 </template>
 
