@@ -47,7 +47,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 // 过滤器
-// import './filters';
+import './filters';
 // 自定义指令
 import './directives';
 // 权限
