@@ -1,9 +1,15 @@
+import Big from 'big.js';
+
 /**
  * @description 格式化输入框输入的金额：整数到亿，小数后只能有两位
  * @param {string} 金额字符串
  * @returns {string} 格式化之后的金额字符串
  */
 export const formatInputMoney = (val = '') => {
+  // 处理数字类型
+  if (typeof val === 'number') {
+    val = new Big(val).toString();
+  }
   /**
    * 1. 去除非数字或 .
    * 2. 去除以 0 开始的整数
