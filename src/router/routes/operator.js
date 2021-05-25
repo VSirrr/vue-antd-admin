@@ -39,6 +39,13 @@ export default [
             },
             component: () => import('views/demo/drag-modal'),
           },
+          {
+            path: '/demo/clipboard',
+            meta: {
+              title: 'Clipboard',
+            },
+            component: () => import('views/demo/clipboard'),
+          },
         ],
       },
       account,
