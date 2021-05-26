@@ -16,8 +16,13 @@
 </template>
 
 <script>
+import clipboard from 'directives/clipboard';
+
 export default {
   name: 'Clipboard',
+  directives: {
+    clipboard,
+  },
   data() {
     return {
       copyData: 234,

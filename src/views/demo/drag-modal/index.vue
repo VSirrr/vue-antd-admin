@@ -23,8 +23,13 @@
 </template>
 
 <script>
+import dragModal from 'directives/drag-modal';
+
 export default {
   name: 'DragModal',
+  directives: {
+    dragModal,
+  },
   data() {
     return {
       visible: false,
