@@ -42,6 +42,7 @@ module.exports = {
     resolve: {
       alias: {
         components: resolve('src/components'),
+        directives: resolve('src/directives'),
         layouts: resolve('src/layouts'),
         mixins: resolve('src/mixins'),
         styles: resolve('src/styles'),
