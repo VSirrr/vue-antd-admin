@@ -109,8 +109,6 @@ export default {
       this.$emit(
         'change',
         fileList
-          // 过滤错误的文件
-          .filter(file => file.status !== 'error')
           // 为上传成功的文件添加预览地址 url
           .map(file => {
             if (file.response) {
@@ -128,7 +126,9 @@ export default {
               }
             }
             return file;
-          }),
+          })
+          // 过滤错误的文件
+          .filter(file => file.status !== 'error'),
         event,
       );
     },
