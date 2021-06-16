@@ -40,5 +40,5 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['/dist/*.js', '/mock/*.js', '**/lib/*.js'],
+  ignorePatterns: ['dist', 'mock', '**/lib'],
 };
