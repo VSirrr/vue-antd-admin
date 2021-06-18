@@ -11,7 +11,7 @@
     "lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:stylelint",
     "lint:eslint": "eslint \"{src,mock}/**/*.{vue,js,jsx}\" --fix",
     "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,jsx,json,css,less,vue,html,md}\"",
-    "lint:stylelint": "stylelint --fix \"**/*.{vue,less,postcss,css}\" --cache --cache-location node_modules/.cache/stylelint/"
+    "lint:stylelint": "stylelint --fix \"src/**/*.{vue,less,postcss,css}\" --cache --cache-location node_modules/.cache/stylelint/"
   },
   "dependencies": {
     "ant-design-vue": "^1.7.5",
