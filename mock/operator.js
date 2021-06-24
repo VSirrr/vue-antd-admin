@@ -25,6 +25,21 @@ const operatorInfo = {
   userStatus: 2,
   userType: 2,
   userTypeDesc: '操作员',
+  authority: [
+    'menu:/demo',
+    'menu:/demo/clipboard',
+    'menu:/demo/drag-modal',
+    'menu:/demo/input',
+    'menu:/users',
+    'button:users.search',
+    'button:users.file',
+    'button:users.examine',
+    'button:users.disable',
+    'button:users.enable',
+    'menu:/account',
+    'menu:/account/info',
+    'menu:/account/pwd',
+  ],
 };
 
 const list = [];
