@@ -11,15 +11,16 @@ export default [
     children: [
       {
         path: '/operator',
+        redirect: '/operator/list',
         meta: {
           title: '操作员管理',
-          icon: 'user',
+          icon: 'team',
         },
         hideChildren: true,
         component: BlankLayout,
         children: [
           {
-            path: '/operator',
+            path: '/operator/list',
             component: () => import('views/operator'),
           },
           {
@@ -28,6 +29,37 @@ export default [
               title: '新增操作员',
             },
             component: () => import('views/operator/increase'),
+          },
+        ],
+      },
+      {
+        path: '/roles',
+        redirect: '/roles/list',
+        meta: {
+          title: '角色管理',
+          icon: 'usergroup-add',
+        },
+        hideChildren: true,
+        component: BlankLayout,
+        children: [
+          {
+            path: '/roles/list',
+            component: () => import('views/roles'),
+          },
+          {
+            path: '/roles/increase',
+            meta: {
+              title: '新增角色',
+            },
+            component: () => import('views/roles/form'),
+          },
+          {
+            path: '/roles/edit',
+            meta: {
+              title: '修改角色',
+            },
+            props: ({ query }) => ({ ...query }),
+            component: () => import('views/roles/form'),
           },
         ],
       },
