@@ -20,11 +20,13 @@
       <!-- 操作 -->
       <template #operate="{ userStatus, userType, userName, id }">
         <template v-if="userStatus === 2 && userType === 1">
-          <OperateButton @click="visible = true">变更管理员</OperateButton>
+          <OperateButton @click="visible1 = true">变更管理员</OperateButton>
         </template>
         <template v-if="userStatus === 2 && userType === 2">
-          <OperateButton @click="resetPwd(userName, id)">
-            重置密码
+          <OperateButton @click="searhRole(id)">查看角色</OperateButton>
+          <OperateButton @click="updateRole(id)">修改角色</OperateButton>
+          <OperateButton @click="resetPwd(userName, id)"
+            >重置密码
           </OperateButton>
           <OperateButton color-red @click="disable(id)">停用</OperateButton>
           <OperateButton color-red @click="cancel(id)">注销</OperateButton>
@@ -39,7 +41,11 @@
       </template>
     </RouteTable>
     <!-- 变更管理员弹框 -->
-    <ChangeAdminModal v-model="visible" />
+    <ChangeAdminModal v-model="visible1" />
+    <!-- 查询操作员角色弹框 -->
+    <SearchRoleModal v-model="visible2" :user-id="userId" />
+    <!-- 修改操作员角色弹框 -->
+    <UpdateRoleModal v-model="visible3" :user-id="userId" />
   </a-card>
 </template>
 
@@ -47,6 +53,9 @@
 import searchTable from 'mixins/searchTable';
 import SearchForm from './components/SearchForm';
 import OperateButton from 'components/OperateButton';
+import SearchRoleModal from './components/SearchRoleModal';
+import UpdateRoleModal from './components/UpdateRoleModal';
+import ChangeAdminModal from './components/ChangeAdminModal';
 import RouteTable, { sortColumn } from 'components/Table/Route';
 import {
   operatorClose,
@@ -63,12 +72,17 @@ export default {
     RouteTable,
     SearchForm,
     OperateButton,
-    ChangeAdminModal: () => import('./components/ChangeAdminModal'),
+    SearchRoleModal,
+    UpdateRoleModal,
+    ChangeAdminModal,
   },
   mixins: [searchTable],
   data() {
     return {
-      visible: false,
+      userId: 0,
+      visible1: false,
+      visible2: false,
+      visible3: false,
     };
   },
   computed: {
@@ -86,7 +100,7 @@ export default {
         {
           dataIndex: 'phone',
           title: '手机号码',
-          width: 140,
+          width: 120,
         },
         {
           dataIndex: 'userName',
@@ -114,7 +128,7 @@ export default {
         {
           key: 'operate',
           title: '操作',
-          width: 200,
+          width: 340,
           scopedSlots: { customRender: 'operate' },
         },
       ];
@@ -253,20 +267,14 @@ export default {
         },
       });
     },
+    searhRole(id) {
+      this.userId = id;
+      this.visible2 = true;
+    },
+    updateRole(id) {
+      this.userId = id;
+      this.visible3 = true;
+    },
   },
 };
 </script>
-
-<style lang="less" scoped>
-@import 'styles/color';
-
-.operate-btn {
-  &:not(:last-child) {
-    margin-right: @padding-md;
-  }
-
-  &.red {
-    color: @red;
-  }
-}
-</style>
