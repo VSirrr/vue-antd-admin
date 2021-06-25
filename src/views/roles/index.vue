@@ -1,9 +1,9 @@
 <template>
   <a-card :bordered="false">
-    <div class="clearfix">
+    <div style="text-align: right;">
       <a-button
         type="primary"
-        style="float: right;margin-bottom: 24px;"
+        style="margin-bottom: 24px;"
         @click="$router.push('/roles/increase')"
       >
         新增
