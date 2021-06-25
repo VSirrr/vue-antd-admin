@@ -29,9 +29,7 @@ export default {
 @import 'styles/color';
 
 .operate-button {
-  &:not(:last-child) {
-    margin-right: 18px;
-  }
+  margin-right: @padding-sm;
 
   &.color-red {
     color: @red;
