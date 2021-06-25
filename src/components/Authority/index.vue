@@ -15,7 +15,7 @@ export default {
   },
   render() {
     if (this.buttons.includes(this.value)) {
-      return this.$slots.default;
+      return <span>{this.$slots.default}</span>;
     }
     return null;
   },
