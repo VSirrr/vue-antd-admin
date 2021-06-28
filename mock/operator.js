@@ -16,6 +16,18 @@ const adminInfo = {
   phone: adminPhone,
   userName: '天道酬勤',
   userTypeDesc: '超级管理员',
+  authority: [
+    'menu:/operator',
+    'menu:/operator/list',
+    'menu:/operator/increase',
+    'menu:/roles',
+    'menu:/roles/list',
+    'menu:/roles/increase',
+    'menu:/roles/edit',
+    'menu:/account',
+    'menu:/account/info',
+    'menu:/account/pwd',
+  ],
 };
 
 const operatorInfo = {
