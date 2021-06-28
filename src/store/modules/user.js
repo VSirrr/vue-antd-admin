@@ -50,7 +50,7 @@ export default {
   mutations: {
     // 处理用户信息
     dealUserInfo: (state, userInfo) => {
-      const { userType, authority = [] } = userInfo;
+      const { authority = [] } = userInfo;
       if (!authority || authority.length === 0) {
         notification.error({
           message: '权限错误',
@@ -64,13 +64,8 @@ export default {
       const constantRoutes = getConstantRoutes();
       // 根据后台返回的菜单过滤路由表
       const accessRoutes = filterRoutes(constantRoutes, menus);
-      // 管理员默认重定向到操作员管理页面
-      if (userType === 1) {
-        accessRoutes[0].redirect = '/operator';
-      } else {
-        accessRoutes[0].redirect = '/demo';
-      }
-      // debugger;
+      // 设置重定向页面：默认为子路由的第一个
+      accessRoutes[0].redirect = accessRoutes[0].children[0].path;
       // 设置用户按钮权限集合
       state.buttons = buttons;
       // 设置用户信息
