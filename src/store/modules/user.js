@@ -53,12 +53,12 @@ export default {
   mutations: {
     // 处理用户信息
     dealUserInfo: (state, userInfo) => {
-      const { userType, pageValues = [] } = userInfo;
+      const { userType, authority = [] } = userInfo;
       // 管理员默认重定向到操作员管理页面
       if (userType === 1) {
         constantRoutes[0].redirect = '/operator';
       }
-      if (!pageValues || pageValues.length === 0) {
+      if (!authority || authority.length === 0) {
         notification.error({
           message: '权限错误',
           description: '请联系管理员，进行权限分配',
@@ -66,7 +66,7 @@ export default {
         throw new Error('权限错误');
       }
       // 区分菜单与按钮
-      const { menus, buttons } = getMenuAndButton(pageValues);
+      const { menus, buttons } = getMenuAndButton(authority);
       // 根据后台返回的菜单过滤路由表
       filterRoutes(constantRoutes[0].children, menus);
       // 设置用户按钮权限集合
