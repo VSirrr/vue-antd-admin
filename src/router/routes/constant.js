@@ -8,7 +8,8 @@ import BlankLayout from '@/layouts/BlankLayout';
  * @param {boolean} hidden 在菜单中隐藏本路由对应的菜单
  */
 
-export default [
+// 通过函数返回一个新的值，防止对路由表数据进行修改影响
+export default () => [
   {
     path: '/',
     redirect: '/demo',
@@ -16,6 +17,7 @@ export default [
     children: [
       {
         path: '/demo',
+        redirect: '/demo/drag-modal',
         meta: {
           title: 'Demo',
           icon: 'appstore',
