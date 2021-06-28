@@ -2,27 +2,24 @@ import md5 from 'md5';
 import { removeToken } from '@/utils/token';
 import { notification } from 'ant-design-vue';
 import { login, logout, getOperator } from 'api/operator';
-import router, { resetRouter, constantRoutes } from '@/router';
+import router, { resetRouter, getConstantRoutes } from '@/router';
 
 // 对路由表进行筛选
-function filterRoutes(routes, authority) {
-  for (let i = 0; i < routes.length; i++) {
-    const route = routes[i];
-    if (!authority.includes(route.path)) {
-      routes.splice(i, 1);
-      i--;
-      continue;
+const filterRoutes = (routes, authority) =>
+  routes.filter(route => {
+    if (authority.includes(route.path)) {
+      if (route.children && route.children.length) {
+        route.children = filterRoutes(route.children, authority);
+      }
+      return true;
     }
-    if (route.children && route.children.length) {
-      filterRoutes(route.children, authority);
-    }
-  }
-}
+    return false;
+  });
 
 // 区分菜单和按钮
 function getMenuAndButton(data) {
   // 数组
-  const menus = [];
+  const menus = ['/', '*'];
   const buttons = [];
   data.forEach(item => {
     if (item.indexOf('menu:') === 0) {
@@ -54,10 +51,6 @@ export default {
     // 处理用户信息
     dealUserInfo: (state, userInfo) => {
       const { userType, authority = [] } = userInfo;
-      // 管理员默认重定向到操作员管理页面
-      if (userType === 1) {
-        constantRoutes[0].redirect = '/operator';
-      }
       if (!authority || authority.length === 0) {
         notification.error({
           message: '权限错误',
@@ -67,16 +60,25 @@ export default {
       }
       // 区分菜单与按钮
       const { menus, buttons } = getMenuAndButton(authority);
+      // 获取路由表
+      const constantRoutes = getConstantRoutes();
       // 根据后台返回的菜单过滤路由表
-      filterRoutes(constantRoutes[0].children, menus);
+      const accessRoutes = filterRoutes(constantRoutes, menus);
+      // 管理员默认重定向到操作员管理页面
+      if (userType === 1) {
+        accessRoutes[0].redirect = '/operator';
+      } else {
+        accessRoutes[0].redirect = '/demo';
+      }
+      // debugger;
       // 设置用户按钮权限集合
       state.buttons = buttons;
       // 设置用户信息
       state.userInfo = userInfo;
       // 设置用户菜单
-      state.routes = constantRoutes;
+      state.routes = accessRoutes;
       // 动态添加路由表
-      router.addRoutes(constantRoutes);
+      router.addRoutes(accessRoutes);
     },
     // 清空用户信息
     clearUserInfo: state => {
