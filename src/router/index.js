@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import routes from './routes/default';
-import constantRoutes from './routes/constant';
+import getConstantRoutes from './routes/constant';
 
 // hack router push callback
 const originalPush = Router.prototype.push;
@@ -39,6 +39,6 @@ const resetRouter = () => {
   router.matcher = newRouter.matcher;
 };
 
-export { constantRoutes, resetRouter };
+export { resetRouter, getConstantRoutes };
 
 export default router;
