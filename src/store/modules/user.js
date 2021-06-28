@@ -1,10 +1,11 @@
 import md5 from 'md5';
 import { removeToken } from '@/utils/token';
+import { notification } from 'ant-design-vue';
 import { login, logout, getOperator } from 'api/operator';
-import router, { resetRouter, adminRoutes, operatorRoutes } from '@/router';
+import router, { resetRouter, constantRoutes } from '@/router';
 
 // 对路由表进行筛选
-function generateRoutes(routes, authority) {
+function filterRoutes(routes, authority) {
   for (let i = 0; i < routes.length; i++) {
     const route = routes[i];
     if (!authority.includes(route.path)) {
@@ -12,8 +13,8 @@ function generateRoutes(routes, authority) {
       i--;
       continue;
     }
-    if (route.children) {
-      generateRoutes(route.children, authority);
+    if (route.children && route.children.length) {
+      filterRoutes(route.children, authority);
     }
   }
 }
@@ -52,24 +53,30 @@ export default {
   mutations: {
     // 处理用户信息
     dealUserInfo: (state, userInfo) => {
-      let routes;
-      if (userInfo.userType === 1) {
-        routes = adminRoutes;
-      } else {
-        // 区分菜单与按钮
-        const { menus, buttons } = getMenuAndButton(userInfo.authority);
-        // 根据后台返回的菜单过滤路由表
-        generateRoutes(operatorRoutes[0].children, menus);
-        routes = operatorRoutes;
-        // 设置用户按钮权限集合
-        state.buttons = buttons;
+      const { userType, pageValues = [] } = userInfo;
+      // 管理员默认重定向到操作员管理页面
+      if (userType === 1) {
+        constantRoutes[0].redirect = '/operator';
       }
-      // 设置用户菜单
-      state.routes = routes;
+      if (!pageValues || pageValues.length === 0) {
+        notification.error({
+          message: '权限错误',
+          description: '请联系管理员，进行权限分配',
+        });
+        throw new Error('权限错误');
+      }
+      // 区分菜单与按钮
+      const { menus, buttons } = getMenuAndButton(pageValues);
+      // 根据后台返回的菜单过滤路由表
+      filterRoutes(constantRoutes[0].children, menus);
+      // 设置用户按钮权限集合
+      state.buttons = buttons;
       // 设置用户信息
       state.userInfo = userInfo;
+      // 设置用户菜单
+      state.routes = constantRoutes;
       // 动态添加路由表
-      router.addRoutes(routes);
+      router.addRoutes(constantRoutes);
     },
     // 清空用户信息
     clearUserInfo: state => {
