@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "octref.vetur",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "esbenp.prettier-vscode",
+    "mrmlnc.vscode-less",
+    "mikestead.dotenv"
+  ]
+}
