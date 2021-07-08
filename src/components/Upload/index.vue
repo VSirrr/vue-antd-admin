@@ -120,7 +120,7 @@ export default {
                 }
               } else {
                 const { basePath, fileName, originFileName } = data;
-                file.url = `/files/previewFile?&basePath=${basePath}&fileName=${fileName}&originFileName=${encodeURIComponent(
+                file.url = `/files/previewFile?basePath=${basePath}&fileName=${fileName}&originFileName=${encodeURIComponent(
                   originFileName,
                 )}`;
               }
