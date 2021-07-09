@@ -16,10 +16,8 @@ export default {
   },
   props: {
     ...Input.props,
-    value: {
-      type: [String, Number],
-      default: '',
-    },
+    // eslint-disable-next-line vue/require-default-prop
+    value: [String, Number],
     type: {
       type: String,
       default: 'text',

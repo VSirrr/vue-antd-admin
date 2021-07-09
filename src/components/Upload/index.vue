@@ -35,10 +35,8 @@ export default {
     event: 'change',
   },
   props: {
-    fileList: {
-      type: Array,
-      default: () => [],
-    },
+    // eslint-disable-next-line vue/require-default-prop
+    fileList: Array,
     accept: {
       type: String,
       default: '.pdf,.jpg,.png',
