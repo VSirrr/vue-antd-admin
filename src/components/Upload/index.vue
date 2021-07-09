@@ -73,7 +73,9 @@ export default {
       const { size, name } = file;
       const { limit, accept, limitSize, fileList = [] } = this;
       // 判断文件类型
-      if (!accept.includes(name.slice(name.lastIndexOf('.')))) {
+      //? 将文件后缀统一为小写
+      const ext = name.slice(name.lastIndexOf('.')).toLowerCase();
+      if (!accept.includes(ext)) {
         file.status = 'error';
         this.$message.error('文件类型不符合要求');
         this.unqualified = true;
