@@ -29,10 +29,8 @@ import { formatPicCode } from './formatValue';
 export default {
   name: 'PictureCode',
   props: {
-    value: {
-      type: String,
-      default: '',
-    },
+    // eslint-disable-next-line vue/require-default-prop
+    value: String,
     hasIcon: {
       type: Boolean,
       default: false,
