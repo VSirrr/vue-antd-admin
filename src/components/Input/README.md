@@ -19,7 +19,7 @@
 
 ```html
 <!-- 1. 单独使用 -->
-<DigitInput type="digit" v-model="digit" /> //1234567890
+<DigitInput type="digit" v-model="digit" /> // 1234567890
 
 <MoneyInput type="money" v-model="money" /> // 10,000.00
 
