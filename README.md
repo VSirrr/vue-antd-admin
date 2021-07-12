@@ -1,5 +1,7 @@
 # vue-antd-admin
 
+参考了 vue-element-admin 与 ant-design-vue-pro，包含 mock-server、组件按需引入、路由懒加载、代码分割、打包分析、静态资源 gzip 压缩、axios 二次封装、角色添加、权限控制等功能。
+
 ## 安装项目依赖
 
 ```shell
