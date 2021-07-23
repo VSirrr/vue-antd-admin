@@ -45,6 +45,13 @@ export default () => [
             },
             component: () => import('views/demo/input'),
           },
+          {
+            path: '/demo/amount',
+            meta: {
+              title: 'Amount',
+            },
+            component: () => import('views/demo/amount'),
+          },
         ],
       },
       {

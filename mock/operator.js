@@ -42,6 +42,7 @@ const operatorInfo = {
     'menu:/demo/clipboard',
     'menu:/demo/drag-modal',
     'menu:/demo/input',
+    'menu:/demo/amount',
     'menu:/users',
     'button:users.search',
     'button:users.file',
