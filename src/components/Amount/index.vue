@@ -2,13 +2,13 @@
   <span>
     <template v-if="!isCapital">
       {{
-        formatValue
+        formatedValue
           | doPrecision(legalPrecision, isRoundUp)
           | doFormat(hasSeparator, separator)
       }}
     </template>
     <template v-else>
-      {{ formatValue | doPrecision(4, isRoundUp) | doCapital }}
+      {{ formatedValue | doPrecision(4, isRoundUp) | doCapital }}
     </template>
   </span>
 </template>
@@ -39,13 +39,13 @@ export default {
         integerValue = integerValue.substring(1);
         sign = '-';
       }
-      const formatValue = integerValue.replace(
+      const formatedValue = integerValue.replace(
         /(\d)(?=(\d{3})+$)/g,
         `$1${separator}`,
       );
       return decimalValue
-        ? `${sign}${formatValue}.${decimalValue}`
-        : `${sign}${formatValue}`;
+        ? `${sign}${formatedValue}.${decimalValue}`
+        : `${sign}${formatedValue}`;
     },
     doCapital(value) {
       return numberCapital(value);
@@ -91,7 +91,7 @@ export default {
   },
   data() {
     return {
-      formatValue: 0,
+      formatedValue: 0,
       isMounted: false,
     };
   },
@@ -104,13 +104,13 @@ export default {
     value: {
       handler(val, oldVal) {
         if (!this.isMounted) {
-          this.formatValue = val;
+          this.formatedValue = val;
           return;
         }
         if (this.isAnimated || this.transition) {
           this.$_doAnimateDisplay(oldVal, val);
         } else {
-          this.formatValue = val;
+          this.formatedValue = val;
         }
       },
       immediate: true,
@@ -123,10 +123,10 @@ export default {
     $_doAnimateDisplay(fromValue = 0, toValue = 0) {
       const step = percent => {
         if (percent === 1) {
-          this.formatValue = toValue;
+          this.formatedValue = toValue;
           return;
         }
-        this.formatValue = fromValue + (toValue - fromValue) * percent;
+        this.formatedValue = fromValue + (toValue - fromValue) * percent;
       };
 
       const verify = id => id;
