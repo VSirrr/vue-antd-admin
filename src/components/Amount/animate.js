@@ -1,4 +1,6 @@
-const Animate = (() => {
+const root = typeof window !== 'undefined' ? window : global;
+
+const Animate = (global => {
   const time =
     Date.now ||
     (() => {
@@ -15,15 +17,15 @@ const Animate = (() => {
      * A requestAnimationFrame wrapper / polyfill.
      *
      * @param callback {Function} The callback to be invoked before the next repaint.
-     * @param window {HTMLElement} The window element for the repaint
+     * @param root {HTMLElement} The root element for the repaint
      */
     requestAnimationFrame: (() => {
       // Check for request animation Frame support
       const requestFrame =
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame;
+        global.requestAnimationFrame ||
+        global.webkitRequestAnimationFrame ||
+        global.mozRequestAnimationFrame ||
+        global.oRequestAnimationFrame;
       let isNative = !!requestFrame;
 
       if (
@@ -36,8 +38,8 @@ const Animate = (() => {
       }
 
       if (isNative) {
-        return (callback, window) => {
-          requestFrame(callback, window);
+        return (callback, root) => {
+          requestFrame(callback, root);
         };
       }
 
@@ -116,7 +118,7 @@ const Animate = (() => {
      * @param duration {Integer} Milliseconds to run the animation
      * @param easingMethod {Function} Pointer to easing function
      *   Signature of the method should be `function(percent) { return modifiedValue; }`
-     * @param window {Element ? document.body} Render window, when available. Used for internal
+     * @param root {Element ? document.body} Render root, when available. Used for internal
      *   usage of requestAnimationFrame.
      * @return {Integer} Identifier of animation. Can be used to stop it any time.
      */
@@ -126,7 +128,7 @@ const Animate = (() => {
       completedCallback,
       duration,
       easingMethod,
-      window,
+      root,
     ) {
       const start = time();
       let lastFrame = start;
@@ -134,8 +136,8 @@ const Animate = (() => {
       let dropCounter = 0;
       const id = counter++;
 
-      if (!window) {
-        window = document.body;
+      if (!root) {
+        root = document.body;
       }
 
       // Compacting running db automatically every few new animations
@@ -206,7 +208,7 @@ const Animate = (() => {
             );
         } else if (render) {
           lastFrame = now;
-          this.requestAnimationFrame(step, window);
+          this.requestAnimationFrame(step, root);
         }
       };
 
@@ -214,13 +216,13 @@ const Animate = (() => {
       running[id] = true;
 
       // Init first step
-      this.requestAnimationFrame(step, window);
+      this.requestAnimationFrame(step, root);
 
       // Return unique animation ID
       return id;
     },
   };
-})(window);
+})(root);
 
 export const easeOutCubic = pos => {
   return Math.pow(pos - 1, 3) + 1;
