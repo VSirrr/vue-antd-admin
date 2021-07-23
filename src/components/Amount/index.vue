@@ -1,17 +1,20 @@
 <template>
   <span>
-    <template v-if="!isCapital">{{
-      value
-        | doPrecision(legalPrecision, isRoundUp)
-        | doFormat(hasSeparator, separator)
-    }}</template>
+    <template v-if="!isCapital">
+      {{
+        formatValue
+          | doPrecision(legalPrecision, isRoundUp)
+          | doFormat(hasSeparator, separator)
+      }}
+    </template>
     <template v-else>
-      {{ value | doPrecision(4, isRoundUp) | doCapital }}
+      {{ formatValue | doPrecision(4, isRoundUp) | doCapital }}
     </template>
   </span>
 </template>
 
 <script>
+import Animate from './animate';
 import numberCapital from './number-capital';
 
 export default {
@@ -36,13 +39,13 @@ export default {
         integerValue = integerValue.substring(1);
         sign = '-';
       }
-      const formateValue = integerValue.replace(
+      const formatValue = integerValue.replace(
         /(\d)(?=(\d{3})+$)/g,
         `$1${separator}`,
       );
       return decimalValue
-        ? `${sign}${formateValue}.${decimalValue}`
-        : `${sign}${formateValue}`;
+        ? `${sign}${formatValue}.${decimalValue}`
+        : `${sign}${formatValue}`;
     },
     doCapital(value) {
       return numberCapital(value);
@@ -73,15 +76,63 @@ export default {
       type: Boolean,
       default: false,
     },
+    isAnimated: {
+      type: Boolean,
+      default: false,
+    },
+    transition: {
+      type: Boolean,
+      default: false,
+    },
+    duration: {
+      type: Number,
+      default: 1000,
+    },
   },
   data() {
     return {
       formatValue: 0,
+      isMounted: false,
     };
   },
   computed: {
     legalPrecision() {
       return this.precision > 0 ? this.precision : 0;
+    },
+  },
+  watch: {
+    value: {
+      handler(val, oldVal) {
+        if (!this.isMounted) {
+          this.formatValue = val;
+          return;
+        }
+        if (this.isAnimated || this.transition) {
+          this.$_doAnimateDisplay(oldVal, val);
+        } else {
+          this.formatValue = val;
+        }
+      },
+      immediate: true,
+    },
+  },
+  mounted() {
+    this.isMounted = true;
+  },
+  methods: {
+    $_doAnimateDisplay(fromValue = 0, toValue = 0) {
+      const step = percent => {
+        if (percent === 1) {
+          this.formatValue = toValue;
+          return;
+        }
+        this.formatValue = fromValue + (toValue - fromValue) * percent;
+      };
+
+      const verify = id => id;
+      const noop = () => {};
+
+      Animate.start(step, verify, noop, this.duration);
     },
   },
 };
