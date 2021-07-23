@@ -12,6 +12,9 @@
 | has-separator | 数字是否有千位分隔符 | boolean | true | - |
 | separator | 数字千位分隔符 | string | , | - |
 | is-capital | 数字是否转换为大写中文 | boolean | false | - |
+| is-animated | 是否使用动画，类似 countup.js 的效果 | boolean | false | - |
+| transition | 是否使用动画，类似 countup.js 的效果 | boolean | false | - |
+| duration | 动画的时长 | number | 1000 | ms |
 
 ## Demo
 
