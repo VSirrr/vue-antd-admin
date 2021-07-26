@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const compressionPlugin = require('compression-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const { NODE_ENV, ANALYZE } = process.env;
 
 // 是否为生产环境
@@ -58,7 +58,7 @@ module.exports = {
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       // gzip files
-      new compressionPlugin({
+      new CompressionPlugin({
         test: /\.js$|\.css$|\.html$/,
         threshold: 1024 * 10,
         deleteOriginalAssets: false,
