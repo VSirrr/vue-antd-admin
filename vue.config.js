@@ -17,7 +17,7 @@ module.exports = {
     open: false,
     host: '0.0.0.0',
     disableHostCheck: true,
-    before: require('./mock/mock-server.js'),
+    before: require('./mock/server.js'),
   },
   css: {
     loaderOptions: {
