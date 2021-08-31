@@ -100,7 +100,7 @@ export default {
         {
           dataIndex: 'phone',
           title: '手机号码',
-          width: 120,
+          width: 130,
         },
         {
           dataIndex: 'userName',
