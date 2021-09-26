@@ -3,20 +3,37 @@ const bodyParser = require('body-parser');
 const chokidar = require('chokidar');
 const chalk = require('chalk');
 const Mock = require('mockjs');
+const glob = require('glob');
 
 const mockDir = path.join(process.cwd(), 'mock');
 
 function registerRoutes(app) {
   let mockLastIndex;
-  const { mocks } = require('./api');
+  const mocks = [];
+
+  const filesPath = glob.sync(`${mockDir}/api/*.js`, {
+    // The current working directory in which to search. Defaults to process.cwd().
+    // 修改搜索路径
+    cwd: __dirname,
+  });
+
+  // 根据路径获取文件导出的数组，并合并到 mocks
+  filesPath.forEach(path => {
+    const file = require(path);
+    mocks.push(...file);
+  });
+
   const mocksForServer = mocks.map(({ url, type = 'get', response }) => {
     return responseFake(url, type, response);
   });
+
   for (const { type, url, response } of mocksForServer) {
     app[type](url, response);
     mockLastIndex = app._router.stack.length;
   }
+
   const mockRoutesLength = Object.keys(mocksForServer).length;
+
   return {
     mockRoutesLength,
     mockStartIndex: mockLastIndex - mockRoutesLength,
@@ -58,7 +75,6 @@ module.exports = app => {
   // watch files, hot reload mock server
   chokidar
     .watch(mockDir, {
-      ignored: /mock-server/,
       ignoreInitial: true,
     })
     .on('all', (event, path) => {
