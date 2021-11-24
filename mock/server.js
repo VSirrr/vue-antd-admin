@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const chokidar = require('chokidar');
 const chalk = require('chalk');
 const Mock = require('mockjs');
-const glob = require('glob');
+const fg = require('fast-glob');
 
 const mockDir = path.join(process.cwd(), 'mock');
 
@@ -11,7 +11,7 @@ function registerRoutes(app) {
   let mockLastIndex;
   const mocks = [];
 
-  const filesPath = glob.sync(`${mockDir}/api/*.js`, {
+  const filesPath = fg.sync(`${mockDir}/api/*.js`, {
     // The current working directory in which to search. Defaults to process.cwd().
     // 修改搜索路径
     cwd: __dirname,
