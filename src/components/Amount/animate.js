@@ -1,11 +1,6 @@
 const root = typeof window !== 'undefined' ? window : global;
 
 const Animate = (global => {
-  const time =
-    Date.now ||
-    (() => {
-      return +new Date();
-    });
   const desiredFrames = 60;
   const millisecondsPerSecond = 1000;
 
@@ -47,7 +42,7 @@ const Animate = (global => {
       let requests = {};
       let rafHandle = 1;
       let intervalHandle = null;
-      let lastActive = +new Date();
+      let lastActive = Date.now();
 
       return callback => {
         const callbackHandle = rafHandle++;
@@ -58,7 +53,7 @@ const Animate = (global => {
         // Create timeout at first request
         if (intervalHandle === null) {
           intervalHandle = setInterval(() => {
-            const time = +new Date();
+            const time = Date.now();
             const currentRequests = requests;
 
             // Reset data structure before executing callbacks
@@ -130,7 +125,7 @@ const Animate = (global => {
       easingMethod,
       root,
     ) {
-      const start = time();
+      const start = Date.now();
       let lastFrame = start;
       let percent = 0;
       let dropCounter = 0;
@@ -155,7 +150,7 @@ const Animate = (global => {
         const render = virtual !== true;
 
         // Get current time
-        const now = time();
+        const now = Date.now();
 
         // Verification is executed before next animation step
         if (!running[id] || (verifyCallback && !verifyCallback(id))) {
