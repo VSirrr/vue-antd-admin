@@ -11,6 +11,7 @@ export default {
       const { pageNo = 1, pageSize = 10 } = $route.query;
       // 总数量是否大于 100
       const show = totalSize > 100;
+
       return {
         // 当前页数
         current: +pageNo,

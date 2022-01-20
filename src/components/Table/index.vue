@@ -53,6 +53,7 @@ export default {
       }
       this.order = order;
       this.field = field;
+
       this.$emit('change', {
         pageSize: reset ? 10 : pageSize,
         pageNo: reset ? 1 : pageNo,
