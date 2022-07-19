@@ -6,12 +6,13 @@ const Mock = require('mockjs');
 const fg = require('fast-glob');
 
 const mockDir = path.join(process.cwd(), 'mock');
+const files = `${mockDir}/api/*.js`;
 
 function registerRoutes(app) {
   let mockLastIndex;
   const mocks = [];
 
-  const filesPath = fg.sync(`${mockDir}/api/*.js`, {
+  const filesPath = fg.sync(files, {
     // The current working directory in which to search. Defaults to process.cwd().
     // 修改搜索路径
     cwd: __dirname,
@@ -74,7 +75,7 @@ module.exports = app => {
 
   // watch files, hot reload mock server
   chokidar
-    .watch(mockDir, {
+    .watch(files, {
       ignoreInitial: true,
     })
     .on('all', (event, path) => {
