@@ -3,7 +3,6 @@
     name="file"
     v-bind="$attrs"
     :accept="accept"
-    :multiple="false"
     :list-type="listType"
     :file-list="fileList"
     :before-upload="beforeUpload"
