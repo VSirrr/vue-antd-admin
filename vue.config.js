@@ -125,7 +125,7 @@ module.exports = {
           common: {
             name: 'chunk-common',
             test: resolve('src/components'),
-            minChunks: 3,
+            minChunks: 2,
             priority: 5,
             reuseExistingChunk: true,
           },
