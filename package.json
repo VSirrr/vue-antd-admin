@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prepare": "husky install && chmod ug+x .husky/*",
+    "prepare": "husky install",
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "analyze": "cross-env ANALYZE=1 vue-cli-service build",
